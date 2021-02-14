@@ -1,0 +1,10 @@
+[Unit]
+Description=Timer to update linux
+
+[Timer]
+OnCalendar={{ auto_update_time }}
+Persistent=false
+WakeSystem=false
+
+[Install]
+WantedBy=multi-user.target

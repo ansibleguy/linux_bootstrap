@@ -1,0 +1,10 @@
+---
+
+- name: Bootstrapping linux
+  hosts: all
+  roles:
+  - bootstrap
+  vars_files:
+    - ./vars/user.yml
+    - ./vars/port.yml
+  become: true

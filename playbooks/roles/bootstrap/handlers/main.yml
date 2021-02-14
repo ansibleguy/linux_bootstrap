@@ -1,0 +1,10 @@
+---
+
+- name: 'restart_sshd'
+  service:
+    name: sshd
+    state: restarted
+
+- name: 'reload_systemd_deamon'
+  systemd:
+    daemon_reload: yes

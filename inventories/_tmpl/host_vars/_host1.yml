@@ -1,0 +1,4 @@
+---
+
+ansible_host: 'IP/DNS'
+tmpl_host_var: 'this is a host variable example'

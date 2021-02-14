@@ -1,0 +1,5 @@
+---
+
+ssh_port: 9322
+
+auto_update_time: 'Mon *-*-* 00:00:00'

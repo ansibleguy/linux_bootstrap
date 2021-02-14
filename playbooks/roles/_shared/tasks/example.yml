@@ -1,0 +1,6 @@
+---
+
+- name: Shared | Example shared task
+  become: false
+  shell: 'whoami'
+  register: current_username
