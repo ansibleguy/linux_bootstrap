@@ -1,0 +1,30 @@
+---
+
+- name: Bootstrap | Config | Set a hostname
+  hostname:
+    name: "{{ inventory_hostname }}"
+
+- name: Bootstrap | Config | Set localhost name resolution
+  lineinfile:
+    dest: '/etc/hosts'
+    regexp: '^127.0.1.1(.*)$'
+    line: "127.0.1.1 {{ inventory_hostname }} {{ host_dns }}"
+    state: present
+    backrefs: yes
+
+- name: Bootstrap | Config | Adding systemd files for auto update
+  template:
+    src: "templates/etc/systemd/system/{{ item }}"
+    dest: "/etc/systemd/system/{{ item }}"
+  with_items:
+    - 'bootstrap-autoUpdate.service'
+    - 'bootstrap-autoUpdate.timer'
+  notify: 'reload_systemd_deamon'
+  when: auto_upgrade
+
+- name:  Bootstrap | Config | Enabling auto update systemd timer
+  systemd:
+    name: 'bootstrap-autoUpdate.timer'
+    enabled: yes
+    state: started
+  when: auto_upgrade

@@ -1,0 +1,22 @@
+# {{ ansible_managed }} by '{{ ansible_user }}' via role '{{ role_name }}'
+
+Protocol 2
+Port {{ port.ssh.port }}
+SyslogFacility AUTH
+LogLevel INFO
+PermitRootLogin no
+MaxAuthTries 6
+PubkeyAuthentication yes
+PasswordAuthentication no
+PermitEmptyPasswords no
+ChallengeResponseAuthentication no
+UsePAM yes
+X11Forwarding no
+PrintMotd no
+ClientAliveInterval 1800
+AcceptEnv LANG LC_*
+Subsystem       sftp    /usr/lib/openssh/sftp-server
+
+{% if ssh_msg %}
+Banner /etc/ssh/banner.txt
+{% endif %}

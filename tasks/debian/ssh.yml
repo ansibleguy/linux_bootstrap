@@ -1,0 +1,28 @@
+---
+
+- name: Bootstrap | SSH | Deploying ssh config
+  template:
+    src: 'templates/etc/ssh/sshd_config.j2'
+    dest: '/etc/ssh/sshd_config'
+    owner: 'root'
+    group: 'root'
+    mode: 0644
+  notify: 'restart_sshd'
+
+- name: Bootstrap | SSH | Deploying ssh pre-login banner
+  copy:
+    src: 'templates/etc/ssh/banner.txt'
+    dest: '/etc/ssh/banner.txt'
+    owner: 'root'
+    group: 'root'
+    mode: 0644
+  when: ssh_msg
+
+- name: Bootstrap | SSH | Deploying ssh post-login banner
+  copy:
+    src: 'templates/etc/motd.j2'
+    dest: '/etc/motd'
+    owner: 'root'
+    group: 'root'
+    mode: 0644
+  when: ssh_msg

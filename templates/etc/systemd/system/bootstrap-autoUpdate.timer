@@ -1,0 +1,12 @@
+# {{ ansible_managed }} by '{{ ansible_user }}' via role '{{ role_name }}'
+
+[Unit]
+Description=Bootstrap - Timer to update linux
+
+[Timer]
+OnCalendar={{ auto_upgrade_time }}
+Persistent=false
+WakeSystem=false
+
+[Install]
+WantedBy=multi-user.target

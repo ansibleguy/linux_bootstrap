@@ -1,0 +1,49 @@
+---
+
+- name: Bootstrap | Install base packages
+  apt:
+    name: ['python', 'python3', 'sudo']
+    state: present
+
+- name: Bootstrap | Install base packages
+  apt:
+    name: ['python-pip', 'python3-pip']
+    state: present
+  when: install_pip
+
+- name: Bootstrap | Install tools
+  apt:
+    name: "{{ install_tools_list }}"
+    state: present
+  when: install_tools
+
+- name: Bootstrap | Default config
+  import_tasks: debian/config.yml
+
+- name: Bootstrap | Configure ssh
+  import_tasks: debian/ssh.yml
+  when: configure_ssh
+
+- name: Bootstrap | Processing users
+  import_role:
+    name: ansibleguy.user
+  when:
+    - users is defined
+    - users | length > 0
+    - configure_users
+  ignore_errors: true  # if user forgot to install the role
+  register: configure_users
+
+- name: Bootstrap | Configuring firewall
+  import_role:
+    name: ansibleguy.ufw
+  when:
+    - ufw_rules is defined
+    - ufw_rules | length > 0
+    - configure_ufw
+  ignore_errors: true  # if user forgot to install the role
+  register: configure_ufw
+
+- debug:
+    msg: 'If you want to configure users and/or ufw => you must install the requirements'
+  when: configure_users.failed or configure_ufw.failed

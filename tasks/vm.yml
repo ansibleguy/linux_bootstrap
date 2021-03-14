@@ -1,0 +1,6 @@
+---
+
+- name: Bootstrap | VM | Install guest tools
+  apt:
+    name: ['open-vm-tools']
+    state: present

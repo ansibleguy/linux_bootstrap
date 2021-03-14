@@ -1,0 +1,11 @@
+---
+
+- name: Bootstrap | Processing debian config
+  import_tasks: debian.yml
+  when: "ansible_distribution in ['Debian',  'Ubuntu']"
+
+- name: Bootstrap | Processing virtual machine config
+  import_tasks: vm.yml
+  when:
+    - ansible_virtualization_role is defined
+    - ansible_virtualization_role == 'guest'

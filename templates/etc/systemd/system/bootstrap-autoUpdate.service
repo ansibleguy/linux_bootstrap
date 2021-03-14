@@ -1,0 +1,10 @@
+# {{ ansible_managed }} by '{{ ansible_user }}' via role '{{ role_name }}'
+
+[Unit]
+Description=Auto update service
+Documentation=https://github.com/ansibleguy/base-bootstrap
+
+[Service]
+Type=oneshot
+ExecStart=/bin/bash apt-get update && apt-get upgrade -y && apt-get dist-upgrade -y
+SuccessExitStatus=0

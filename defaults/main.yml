@@ -1,0 +1,38 @@
+---
+
+# basic config
+
+install_pip: false
+# if ansible needs additional packages they could be auto-installed via pip
+# but pip will install compilers on the target system
+install_tools: true
+install_tools_list:
+  - 'ncdu'
+  - 'net-tools'
+  - 'dnsutils'
+
+configure_ufw: true
+configure_users: true
+
+auto_upgrade: false
+auto_upgrade_time: 'Mon *-*-* 00:00:00'
+
+
+# ssh config
+
+configure_ssh: true
+ssh_port: 22
+ssh_msg: false
+ssh_banner_msg: '
+----------------------
+| Restricted  access |
+| You shall not pass |
+----------------------
+'
+ssh_welcome_msg: '
+----------------------------------
+|     Welcome to this server     |
+| Your activities will be logged |
+|       Proceed with care!       |
+----------------------------------
+'

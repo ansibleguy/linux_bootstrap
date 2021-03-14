@@ -1,0 +1,22 @@
+---
+
+dependencies:
+  - src: 'https://github.com/ansibleguy/base-ufw.git'
+    version: 'stable'
+    name: 'ansibleguy.ufw'
+  - src: 'https://github.com/ansibleguy/base-user.git'
+    version: 'stable'
+    name: 'ansibleguy.user'
+
+galaxy_info:
+  author: 'AnsibleGuy'
+  description: 'Linux bootstrapping role'
+  platforms:
+    - name: Debian
+      versions:
+        - all
+    - name: Ubuntu
+      versions:
+        - all
+  galaxy_tags:
+    - 'bootstrap'

@@ -1,0 +1,10 @@
+# external roles and collections to download
+# install: ansible-galaxy install -r requirements.yml
+
+roles:
+  - src: 'https://github.com/ansibleguy/base-ufw.git'
+    version: 'stable'
+    name: 'ansibleguy.ufw'
+  - src: 'https://github.com/ansibleguy/base-user.git'
+    version: 'stable'
+    name: 'ansibleguy.user'
