@@ -20,3 +20,7 @@ galaxy_info:
         - all
   galaxy_tags:
     - 'bootstrap'
+    - 'ufw'
+    - 'users'
+    - 'openssh'
+    - 'auto-update'

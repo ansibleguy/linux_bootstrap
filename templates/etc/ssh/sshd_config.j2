@@ -1,22 +1,34 @@
-# {{ ansible_managed }} by '{{ ansible_user }}' via role '{{ role_name }}'
+# {{ ansible_managed }}
 
+# custom config
+Port {{ ssh_config.port }}
+PermitRootLogin {% if allow_root %}yes{% else %}no{% endif %}
+{% if auth_multi %}
+AuthenticationMethods "publickey,password"
+PasswordAuthentication yes
+PubkeyAuthentication yes
+{% else %}
+PubkeyAuthentication {% if auth_pwd %}yes{% else %}no{% endif %}
+PasswordAuthentication {% if auth_pubkey %}yes{% else %}no{% endif %}
+{% endif %}
+
+# login messages
+{% if ssh_config.msg %}
+Banner /etc/ssh/banner.txt
+PrintMotd yes
+{% else %}
+PrintMotd no
+{% endif %}
+
+# these should only be changed if really needed
 Protocol 2
-Port {{ port.ssh.port }}
 SyslogFacility AUTH
 LogLevel INFO
-PermitRootLogin no
-MaxAuthTries 6
-PubkeyAuthentication yes
-PasswordAuthentication no
+MaxAuthTries 5
 PermitEmptyPasswords no
 ChallengeResponseAuthentication no
 UsePAM yes
 X11Forwarding no
-PrintMotd no
 ClientAliveInterval 1800
 AcceptEnv LANG LC_*
 Subsystem       sftp    /usr/lib/openssh/sftp-server
-
-{% if ssh_msg %}
-Banner /etc/ssh/banner.txt
-{% endif %}

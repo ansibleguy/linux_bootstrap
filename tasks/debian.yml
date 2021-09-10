@@ -1,49 +1,47 @@
 ---
 
-- name: Bootstrap | Install base packages
+- name: Bootstrap | Debian | Install base packages
   apt:
-    name: ['python', 'python3', 'sudo']
+    name: "{{ base_packages.debian[ansible_distribution_major_version] | default(base_packages.debian.other) }}"
     state: present
 
-- name: Bootstrap | Install base packages
+- name: Bootstrap | Debian | Install tools
   apt:
-    name: ['python-pip', 'python3-pip']
-    state: present
-  when: install_pip
-
-- name: Bootstrap | Install tools
-  apt:
-    name: "{{ install_tools_list }}"
+    name: "{{ install_tools_list.debian[ansible_distribution_major_version] | default(install_tools_list.debian.other) }}"
     state: present
   when: install_tools
 
-- name: Bootstrap | Default config
+- name: Bootstrap | Debian | Install guest tools
+  apt:
+    name: "{{ vm_packages.debian[ansible_distribution_major_version] | default(vm_packages.debian.other) }}"
+    state: present
+  when:
+    - ansible_virtualization_role is defined
+    - ansible_virtualization_role == 'guest'
+
+- name: Bootstrap | Debian | Default config
   import_tasks: debian/config.yml
 
-- name: Bootstrap | Configure ssh
+- name: Bootstrap | Debian | AutoUpdate config
+  import_tasks: debian/update.yml
+  when: configure_auto_update
+
+- name: Bootstrap | Debian | Configure ssh
   import_tasks: debian/ssh.yml
   when: configure_ssh
 
-- name: Bootstrap | Processing users
+- name: Bootstrap | Debian | Processing users
   import_role:
     name: ansibleguy.user
   when:
+    - configure_users
     - users is defined
     - users | length > 0
-    - configure_users
-  ignore_errors: true  # if user forgot to install the role
-  register: configure_users
 
-- name: Bootstrap | Configuring firewall
+- name: Bootstrap | Debian | Configuring firewall
   import_role:
     name: ansibleguy.ufw
   when:
+    - configure_firewall
     - ufw_rules is defined
     - ufw_rules | length > 0
-    - configure_ufw
-  ignore_errors: true  # if user forgot to install the role
-  register: configure_ufw
-
-- debug:
-    msg: 'If you want to configure users and/or ufw => you must install the requirements'
-  when: configure_users.failed or configure_ufw.failed

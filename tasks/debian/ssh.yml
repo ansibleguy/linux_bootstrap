@@ -1,5 +1,15 @@
 ---
 
+- name: Bootstrap | SSH | Lockout check
+  pause:
+    prompt: "You are about to deny root ssh-access without deploying users!
+    This could lead to you locking yourself out!
+    Do you want to continue? (YES/no)"
+  register: ssh_lockout_check
+  when:
+    - not ssh_config.allow_root
+    - not configure_users or users is not defined
+
 - name: Bootstrap | SSH | Deploying ssh config
   template:
     src: 'templates/etc/ssh/sshd_config.j2'
@@ -8,21 +18,24 @@
     group: 'root'
     mode: 0644
   notify: 'restart_sshd'
+  when: >
+    ssh_lockout_check.user_input is undefined or
+    ssh_lockout_check.user_input in ['y', 'yes', 'Y', 'YES']
 
 - name: Bootstrap | SSH | Deploying ssh pre-login banner
-  copy:
-    src: 'templates/etc/ssh/banner.txt'
+  template:
+    src: 'templates/etc/ssh/banner.txt.j2'
     dest: '/etc/ssh/banner.txt'
     owner: 'root'
     group: 'root'
     mode: 0644
-  when: ssh_msg
+  when: ssh_config.msg
 
 - name: Bootstrap | SSH | Deploying ssh post-login banner
-  copy:
+  template:
     src: 'templates/etc/motd.j2'
     dest: '/etc/motd'
     owner: 'root'
     group: 'root'
     mode: 0644
-  when: ssh_msg
+  when: ssh_config.msg

@@ -1,0 +1,26 @@
+---
+
+- name: Bootstrap | Debian | AutoUpdate | Install update tool
+  apt:
+    name: ['unattended-upgrades']
+    state: present
+
+- name: Bootstrap | Debian | AutoUpdate | Setting update time (1/2)
+  file:
+    path: '/etc/systemd/system/apt-daily.timer.d'
+    state: directory
+    mode: 0755
+
+- name: Bootstrap | Debian | AutoUpdate | Setting update time (2/2)
+  template:
+    src: 'templates/etc/systemd/system/apt-daily.timer.d/override.conf.j2'
+    dest: '/etc/systemd/system/apt-daily.timer.d/override.conf'
+
+- name: Bootstrap | Debian | AutoUpdate | Configuring update settings
+  template:
+    src: 'templates/etc/apt/apt.conf.d/50unattended-upgrades.j2'
+    dest: '/etc/apt/apt.conf.d/50unattended-upgrades'
+
+- name: Bootstrap | Debian | AutoUpdate | Systemd daemon-reload
+  systemd:
+    daemon_reload: yes

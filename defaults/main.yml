@@ -1,38 +1,67 @@
 ---
 
-# basic config
+# main switches
+configure_firewall: true
+configure_users: true
+configure_ssh: true
+configure_auto_update: false
 
-install_pip: false
-# if ansible needs additional packages they could be auto-installed via pip
-# but pip will install compilers on the target system
+# packages
+base_packages:
+  debian:
+    11: ['python3', 'sudo']
+    other: ['python', 'python3', 'sudo']
+
+vm_packages:
+  debian:
+    other: ['open-vm-tools']
+
 install_tools: true
 install_tools_list:
-  - 'ncdu'
-  - 'net-tools'
-  - 'dnsutils'
+  debian:
+    other:
+      - 'ncdu'  # disk allocation check
+      - 'net-tools'  # network diagnostics
+      - 'dnsutils'  # name resolution diagnostics
+      - 'iotop'  # disk read/write diagnostics
+      - 'iftop'  # network transfer diagnostics
 
-configure_ufw: true
-configure_users: true
-
-auto_upgrade: false
-auto_upgrade_time: 'Mon *-*-* 00:00:00'
-
+# update config
+auto_update_config:
+  time: 'Sun 00:00'  # for syntax see: https://wiki.archlinux.org/title/Systemd/Timers
+  install_recommended: true
+  install_security: true
+  exclusions: []
+  auto_fix: true  # automatically try to fix install-errors
+  on_shutdown: false  # install updates on shutdown
+  remove_unused_kernel: true  # clean-up old kernel packages after updates
+  remove_unused_packages: false  # could break scripts and so on; since their packages are 'unused' as of apt's knowledge
+  auto_reboot: false
+  auto_reboot_with_users: false
+  auto_reboot_time: '02:00'
+  logging: true
+  logging_verbose: false
 
 # ssh config
-
-configure_ssh: true
-ssh_port: 22
-ssh_msg: false
-ssh_banner_msg: '
-----------------------
-| Restricted  access |
-| You shall not pass |
-----------------------
-'
-ssh_welcome_msg: '
-----------------------------------
-|     Welcome to this server     |
-| Your activities will be logged |
-|       Proceed with care!       |
-----------------------------------
-'
+#   only a basic configuration is supported by this rule
+#   for more complex setups you would need to use another role and disable ssh processing in this one
+ssh_config:
+  port: 22
+  allow_root: false
+  auth_multi: false  # require both publickey and password to log-in
+  auth_pwd: true  # allow to use password-authentication to log-in
+  auth_pubkey: true  # allow to use publickey-authentication to log-in
+  msg: false
+  banner_msg: '
+  ----------------------
+  | Restricted  access |
+  | You shall not pass |
+  ----------------------
+  '
+  welcome_msg: '
+  ----------------------------------
+  |     Welcome to this server     |
+  | Your activities will be logged |
+  |       Proceed with care!       |
+  ----------------------------------
+  '
