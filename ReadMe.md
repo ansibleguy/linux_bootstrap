@@ -16,6 +16,7 @@ This ansible role will configure:
     * OpenSSH server
     * Users => using [THIS](https://github.com/ansibleguy/base-users) role
     * UFW => using [THIS](https://github.com/ansibleguy/base-ufw) role
+    * Network => using [THIS](https://github.com/ansibleguy/base-network) role
   * default opt-out:
     * auto-updates
 

@@ -4,7 +4,10 @@
 roles:
   - src: 'https://github.com/ansibleguy/base-ufw.git'
     version: 'stable'
-    name: 'ansibleguy.ufw'
+    name: 'ansibleguy.base-ufw'
   - src: 'https://github.com/ansibleguy/base-user.git'
     version: 'stable'
-    name: 'ansibleguy.user'
+    name: 'ansibleguy.base-user'
+  - src: 'https://github.com/ansibleguy/base-network.git'
+    version: 'stable'
+    name: 'ansibleguy.base-network'

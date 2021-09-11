@@ -1,10 +1,12 @@
 ---
 
 # main switches
+configure_network: true
 configure_firewall: true
 configure_users: true
 configure_ssh: true
 configure_auto_update: false
+backup_config: false  # if the ansible backup-flag should be set for important config-files
 
 # packages
 base_packages:
@@ -53,15 +55,15 @@ ssh_config:
   auth_pubkey: true  # allow to use publickey-authentication to log-in
   msg: false
   banner_msg: '
-  ----------------------
-  | Restricted  access |
-  | You shall not pass |
-  ----------------------
-  '
+----------------------
+| Restricted  access |
+| You shall not pass |
+----------------------
+'
   welcome_msg: '
-  ----------------------------------
-  |     Welcome to this server     |
-  | Your activities will be logged |
-  |       Proceed with care!       |
-  ----------------------------------
-  '
+----------------------------------
+|     Welcome to this server     |
+| Your activities will be logged |
+|       Proceed with care!       |
+----------------------------------
+'

@@ -1,18 +1,18 @@
 ---
 
 - name: Bootstrap | Debian | Install base packages
-  apt:
+  ansible.builtin.apt:
     name: "{{ base_packages.debian[ansible_distribution_major_version] | default(base_packages.debian.other) }}"
     state: present
 
 - name: Bootstrap | Debian | Install tools
-  apt:
+  ansible.builtin.apt:
     name: "{{ install_tools_list.debian[ansible_distribution_major_version] | default(install_tools_list.debian.other) }}"
     state: present
   when: install_tools
 
 - name: Bootstrap | Debian | Install guest tools
-  apt:
+  ansible.builtin.apt:
     name: "{{ vm_packages.debian[ansible_distribution_major_version] | default(vm_packages.debian.other) }}"
     state: present
   when:
@@ -20,27 +20,19 @@
     - ansible_virtualization_role == 'guest'
 
 - name: Bootstrap | Debian | Default config
-  import_tasks: debian/config.yml
+  ansible.builtin.import_tasks: debian/config.yml
 
 - name: Bootstrap | Debian | AutoUpdate config
-  import_tasks: debian/update.yml
+  ansible.builtin.import_tasks: debian/update.yml
   when: configure_auto_update
 
 - name: Bootstrap | Debian | Configure ssh
-  import_tasks: debian/ssh.yml
+  ansible.builtin.import_tasks: debian/ssh.yml
   when: configure_ssh
 
-- name: Bootstrap | Debian | Processing users
-  import_role:
-    name: ansibleguy.user
-  when:
-    - configure_users
-    - users is defined
-    - users | length > 0
-
 - name: Bootstrap | Debian | Configuring firewall
-  import_role:
-    name: ansibleguy.ufw
+  ansible.builtin.include_role:
+    name: ansibleguy.base-ufw
   when:
     - configure_firewall
     - ufw_rules is defined

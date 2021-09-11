@@ -1,5 +1,18 @@
 ---
 
+- name: Bootstrap | Processing users
+  ansible.builtin.import_role:
+    name: ansibleguy.base-user
+  when:
+    - configure_users
+    - users is defined
+    - users | length > 0
+
+- name: Bootstrap | Processing network
+  ansible.builtin.import_role:
+    name: ansibleguy.base-network
+  when: configure_network
+
 - name: Bootstrap | Processing debian config
-  import_tasks: debian.yml
+  ansible.builtin.import_tasks: debian.yml
   when: "ansible_distribution in ['Debian', 'Ubuntu']"
