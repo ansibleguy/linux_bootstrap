@@ -1,11 +1,11 @@
 # {{ ansible_managed }} - role {{ role_name }}
 
 Unattended-Upgrade::Origins-Pattern {
-{% if auto_update_config.install_recommended %}
+{% if auto_update_config.install_recommended | default(default_auto_update_config.install_recommended) %}
         "origin=Debian,codename=${distro_codename},label=Debian";
         "origin=Debian,codename=${distro_codename}-updates";
 {% endif %}
-{% if auto_update_config.install_security %}
+{% if auto_update_config.install_security | default(default_auto_update_config.install_security) %}
         "origin=Debian,codename=${distro_codename},label=Debian-Security";
         "origin=Debian,codename=${distro_codename}-security,label=Debian-Security";
 {% endif %}
@@ -13,27 +13,34 @@ Unattended-Upgrade::Origins-Pattern {
 
 // Python regular expressions, matching packages to exclude from upgrading
 Unattended-Upgrade::Package-Blacklist {
-{% for exclusion in auto_update_config.exclusions %}
-    "{{ exclusion }}";
+{% for exclusion in auto_update_config.exclusions | default(default_auto_update_config.exclusions) %}
+        "{{ exclusion }}";
 {% endfor %}
+
+{% if auto_update_config.exclude_kernel | default(default_auto_update_config.exclude_kernel) %}
+        "linux-headers*";
+        "linux-image*";
+        "linux-generic*";
+        "linux-modules*";
+{% endif %}
 };
 
-Unattended-Upgrade::AutoFixInterruptedDpkg "{{ auto_update_config.auto_fix }}";
+Unattended-Upgrade::AutoFixInterruptedDpkg "{{ auto_update_config.auto_fix | default(default_auto_update_config.auto_fix) }}";
 
-Unattended-Upgrade::InstallOnShutdown "{{ auto_update_config.on_shutdown }}";
-Unattended-Upgrade::Remove-Unused-Kernel-Packages "{{ auto_update_config.remove_unused_kernel }}";
-Unattended-Upgrade::Remove-New-Unused-Dependencies "{{ auto_update_config.remove_unused_packages }}";
-Unattended-Upgrade::Remove-Unused-Dependencies "{{ auto_update_config.remove_unused_packages }}";
+Unattended-Upgrade::InstallOnShutdown "{{ auto_update_config.on_shutdown | default(default_auto_update_config.on_shutdown) }}";
+Unattended-Upgrade::Remove-Unused-Kernel-Packages "{{ auto_update_config.remove_unused_kernel | default(default_auto_update_config.remove_unused_kernel) }}";
+Unattended-Upgrade::Remove-New-Unused-Dependencies "{{ auto_update_config.remove_unused_packages | default(default_auto_update_config.remove_unused_packages) }}";
+Unattended-Upgrade::Remove-Unused-Dependencies "{{ auto_update_config.remove_unused_packages | default(default_auto_update_config.remove_unused_packages) }}";
 
 // auto reboot
-Unattended-Upgrade::Automatic-Reboot "{{ auto_update_config.auto_reboot }}";
-Unattended-Upgrade::Automatic-Reboot-WithUsers "{{ auto_update_config.auto_reboot_with_users }}";
-Unattended-Upgrade::Automatic-Reboot-Time "{{ auto_update_config.auto_reboot_time }}";
+Unattended-Upgrade::Automatic-Reboot "{{ auto_update_config.auto_reboot | default(default_auto_update_config.auto_reboot) }}";
+Unattended-Upgrade::Automatic-Reboot-WithUsers "{{ auto_update_config.auto_reboot_with_users | default(default_auto_update_config.auto_reboot_with_users) }}";
+Unattended-Upgrade::Automatic-Reboot-Time "{{ auto_update_config.auto_reboot_time | default(default_auto_update_config.auto_reboot_time) }}";
 
 // logging
-Unattended-Upgrade::SyslogEnable "{{ auto_update_config.logging }}";
+Unattended-Upgrade::SyslogEnable "{{ auto_update_config.logging | default(default_auto_update_config.logging) }}";
 Unattended-Upgrade::SyslogFacility "daemon";
-Unattended-Upgrade::Verbose "{{ auto_update_config.logging_verbose }}";
+Unattended-Upgrade::Verbose "{{ auto_update_config.logging_verbose | default(default_auto_update_config.logging_verbose) }}";
 
 // these should only be changed if really needed
 Unattended-Upgrade::OnlyOnACPower "true";

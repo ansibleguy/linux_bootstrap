@@ -19,20 +19,30 @@
     - ansible_virtualization_role is defined
     - ansible_virtualization_role == 'guest'
 
-- name: Bootstrap | Debian | Default config
-  ansible.builtin.import_tasks: debian/config.yml
+- name: Bootstrap | Debian | Set localhost name resolution
+  ansible.builtin.lineinfile:
+    dest: '/etc/hosts'
+    regexp: '^127.0.1.1(.*)$'
+    line: "127.0.1.1 {{ inventory_hostname }} {% if host_dns is defined %}{{ host_dns }}{% endif %}"
+    state: present
+    backrefs: yes
 
 - name: Bootstrap | Debian | AutoUpdate config
   ansible.builtin.import_tasks: debian/update.yml
   when: configure_auto_update
+  tags: update
 
 - name: Bootstrap | Debian | Configure ssh
   ansible.builtin.import_tasks: debian/ssh.yml
   when: configure_ssh
+  tags: ssh
 
 - name: Bootstrap | Debian | Configuring firewall
   ansible.builtin.include_role:
     name: ansibleguy.base-ufw
+  tags:
+    - ufw
+    - firewall
   when:
     - configure_firewall
     - ufw_rules is defined

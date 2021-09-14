@@ -1,23 +1,24 @@
 # {{ ansible_managed }} - role {{ role_name }}
 
 # custom config
-Port {{ ssh_config.port }}
-PermitRootLogin {% if allow_root %}yes{% else %}no{% endif %}
-{% if auth_multi %}
+Port {{ ssh_config.port | default(default_ssh_config.port) }}
+PermitRootLogin {% if ssh_config.allow_root | default(default_ssh_config.allow_root) %}yes{% else %}no{% endif %}
+
+{% if ssh_config.auth_multi | default(default_ssh_config.auth_multi) %}
 AuthenticationMethods "publickey,password"
 PasswordAuthentication yes
 PubkeyAuthentication yes
+
 {% else %}
-PubkeyAuthentication {% if auth_pwd %}yes{% else %}no{% endif %}
-PasswordAuthentication {% if auth_pubkey %}yes{% else %}no{% endif %}
+PubkeyAuthentication {% if ssh_config.auth_pwd | default(default_ssh_config.auth_pwd) %}yes{% else %}no{% endif %}
+
+PasswordAuthentication {% if ssh_config.auth_pubkey | default(default_ssh_config.auth_pubkey) %}yes{% else %}no{% endif %}
 {% endif %}
 
+
 # login messages
-{% if ssh_config.msg %}
+{% if ssh_config.msg | default(default_ssh_config.msg) %}
 Banner /etc/ssh/banner.txt
-PrintMotd yes
-{% else %}
-PrintMotd no
 {% endif %}
 
 # these should only be changed if really needed
@@ -32,3 +33,4 @@ X11Forwarding no
 ClientAliveInterval 1800
 AcceptEnv LANG LC_*
 Subsystem       sftp    /usr/lib/openssh/sftp-server
+PrintMotd no

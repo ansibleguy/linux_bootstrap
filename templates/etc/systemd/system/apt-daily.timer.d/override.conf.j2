@@ -1,3 +1,3 @@
 [Timer]
 OnCalendar=
-OnCalendar={{ auto_update_config.time }}
+OnCalendar={{ auto_update_config.time | default(default_auto_update_config.time) }}

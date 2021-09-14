@@ -16,5 +16,4 @@ galaxy_info:
     - 'users'
     - 'openssh'
     - 'auto-update'
-    - 'network-interfaces'
-    - 'network-routing'
+    - 'network'

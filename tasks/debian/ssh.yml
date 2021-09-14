@@ -7,7 +7,7 @@
     Do you want to continue? (YES/no)"
   register: ssh_lockout_check
   when:
-    - not ssh_config.allow_root
+    - not ssh_config.allow_root | default(default_ssh_config.allow_root)
     - not configure_users or users is not defined
 
 - name: Bootstrap | SSH | Deploying ssh config
@@ -24,19 +24,27 @@
     ssh_lockout_check.user_input in ['y', 'yes', 'Y', 'YES']
 
 - name: Bootstrap | SSH | Deploying ssh pre-login banner
-  ansible.builtin.template:
-    src: 'templates/etc/ssh/banner.txt.j2'
+  ansible.builtin.copy:
+    content: |
+      {% for line in  ssh_config.banner_msg | default(default_ssh_config.banner_msg) %}
+      {{ line }}
+      {% endfor %}
     dest: '/etc/ssh/banner.txt'
     owner: 'root'
     group: 'root'
     mode: 0644
-  when: ssh_config.msg
+  notify: 'restart_sshd'
+  when: ssh_config.msg | default(default_ssh_config.msg)
 
 - name: Bootstrap | SSH | Deploying ssh post-login banner
-  ansible.builtin.template:
-    src: 'templates/etc/motd.j2'
+  ansible.builtin.copy:
+    content: |
+      {% for line in  ssh_config.welcome_msg | default(default_ssh_config.welcome_msg) %}
+      {{ line }}
+      {% endfor %}
     dest: '/etc/motd'
     owner: 'root'
     group: 'root'
     mode: 0644
-  when: ssh_config.msg
+  notify: 'restart_sshd'
+  when: ssh_config.msg | default(default_ssh_config.msg)

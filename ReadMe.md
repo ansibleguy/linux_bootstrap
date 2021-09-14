@@ -3,21 +3,23 @@ Ansible linux system bootstrap role
 
 **Note:** this role currently only supports debian-based systems
 
+**Tested:**
+* Debian 11
+
 ## Functionality
 
-This ansible role will configure:
 * Package installation
-  * Ansible essentials
-  * administrative tools
-  * virtual machine guest-tools (_vm only_)
+  * Ansible dependencies (_minimal_)
+  * Administrative tools
+  * Virtual machine guest-tools (_vm only_)
 * Configuration
-  * hostname & local dns resolution
-  * default opt-in:
+  * Hostname & local dns resolution
+  * Default opt-in:
     * OpenSSH server
     * Users => using [THIS](https://github.com/ansibleguy/base-users) role
     * UFW => using [THIS](https://github.com/ansibleguy/base-ufw) role
     * Network => using [THIS](https://github.com/ansibleguy/base-network) role
-  * default opt-out:
+  * Default opt-out:
     * auto-updates
 
 
@@ -29,4 +31,23 @@ To use the full functionality of this role you must first install its dependenci
 
 ```
 ansible-galaxy install -r requirements.yml
+```
+
+## Usage
+
+```yaml
+ssh_config:
+  port: 10022
+  auto_pwd: false
+  # auth_multi: true  # if you want to enforce pwd & pubkey combined for ssh-authentication
+  msg: true  # show login pre- and post-login banner
+  welcome_msg:
+    - 'Welcome! :D'
+    - "And don't forget => 'rm -rf / --no-preserve-root' is bad practise"
+
+configure_auto_update: true
+auto_update_config:
+  exclude_kernel: true
+  exclusions: ['haproxy']
+  logging_verbose: true
 ```

@@ -1,2 +1,2 @@
 
-{{ ssh_config.banner_msg }}
+{{ ssh_config.banner_msg | default(default_ssh_config.banner_msg)  }}
