@@ -16,7 +16,7 @@ Ansible linux system bootstrap role
   * Hostname & local dns resolution
   * Default opt-in:
     * OpenSSH server
-    * Users/Groups => using [THIS](https://github.com/ansibleguy/base-users) role
+    * Users/Groups => using [THIS](https://github.com/ansibleguy/base-user) role
     * UFW => using [THIS](https://github.com/ansibleguy/base-ufw) role
     * Network => using [THIS](https://github.com/ansibleguy/base-network) role
   * Default opt-out:
