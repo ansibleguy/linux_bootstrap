@@ -1,4 +1,4 @@
-# Bootstrap
+# Linux Bootstrap
 Ansible linux system bootstrap role
 
 **Note:** this role currently only supports debian-based systems
@@ -16,7 +16,7 @@ Ansible linux system bootstrap role
   * Hostname & local dns resolution
   * Default opt-in:
     * OpenSSH server
-    * Users => using [THIS](https://github.com/ansibleguy/base-users) role
+    * Users/Groups => using [THIS](https://github.com/ansibleguy/base-users) role
     * UFW => using [THIS](https://github.com/ansibleguy/base-ufw) role
     * Network => using [THIS](https://github.com/ansibleguy/base-network) role
   * Default opt-out:
@@ -50,4 +50,31 @@ auto_update_config:
   exclude_kernel: true
   exclusions: ['haproxy']
   logging_verbose: true
+
+users:  # more info: https://github.com/ansibleguy/base-user
+  guy:
+    comment: 'AnsibleGuy'
+    ssh_pub: 'ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBKkIlii1iJM240yPSPS5WhrdQwGFa7BTJZ59ia40wgVWjjg1JlTtr9K2W66fNb2zNO7tLkaNzPddMEsov2bJAno= guy@ansibleguy.net'
+
+user_groups:
+  ag_users:
+    members: []
+  ag_admins:
+    members: ['guy']
+    member_of: ['ag_users']
+
+network_interfaces:  # more info: https://github.com/ansibleguy/base-network
+  ens192:
+    address: '192.168.142.90/24'
+    gateway: '192.168.142.1'
+
+ufw_rules:  # more info: https://github.com/ansibleguy/base-ufw
+  ssh:
+    port: 22
+    proto: 'tcp'
+    log: true
+    rule: 'limit'
+  webServer:
+    port: 80,443
+    proto: 'tcp'
 ```

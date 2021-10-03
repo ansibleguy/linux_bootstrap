@@ -1,5 +1,7 @@
 ---
 
+# todo: totp authentication
+
 - name: Bootstrap | SSH | Lockout check
   ansible.builtin.pause:
     prompt: "You are about to deny root ssh-access without deploying users!

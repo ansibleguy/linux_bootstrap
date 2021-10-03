@@ -27,13 +27,13 @@
   ansible.builtin.hostname:
     name: "{{ inventory_hostname }}"
 
-#- name: Bootstrap | Processing users
-#  ansible.builtin.import_role:
-#    name: ansibleguy.base-user
-#  when:
-#    - configure_users
-#    - users is defined
-#    - users | length > 0
+- name: Bootstrap | Processing users
+  ansible.builtin.import_role:
+    name: ansibleguy.base-user
+  when: >
+    configure_users and
+    ((users is defined and users | length > 0) or
+    (user_groups is defined and user_groups | length > 0))
 
 - name: Bootstrap | Processing network
   ansible.builtin.import_role:
