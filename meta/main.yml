@@ -2,14 +2,14 @@
 
 galaxy_info:
   author: 'AnsibleGuy'
-  description: 'Linux bootstrapping role'
+  description: 'Role to bootstrap a linux server (basic setup tasks)'
   platforms:
     - name: Debian
       versions:
-        - all
+        - bullseye
     - name: Ubuntu
       versions:
-        - all
+        - bionic
   galaxy_tags:
     - 'bootstrap'
     - 'ufw'
