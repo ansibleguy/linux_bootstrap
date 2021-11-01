@@ -1,7 +1,7 @@
 ---
 
 galaxy_info:
-  authors: 'AnsibleGuy <guy@ansibleguy.net>'
+  author: 'AnsibleGuy <guy@ansibleguy.net>'
   readme: 'README.md'
   license: 'MIT'
   repository: 'https://github.com/ansibleguy/base-bootstrap'
@@ -26,6 +26,6 @@ galaxy_info:
     - 'update'
 
 dependencies:
-  - 'ansibleguy.base-ufw'
-  - 'ansibleguy.base-user'
-  - 'ansibleguy.base-network'
+  - 'ansibleguy.base_ufw'
+  - 'ansibleguy.base_user'
+  - 'ansibleguy.base_network'
