@@ -1,11 +1,13 @@
 ---
 
 galaxy_info:
-  authors: ['AnsibleGuy <guy@ansibleguy.net>']
-  readme: 'ReadMe.md'
-  license: ['MIT']
-  version: '1.0'
+  authors: 'AnsibleGuy <guy@ansibleguy.net>'
+  readme: 'README.md'
+  license: 'MIT'
   repository: 'https://github.com/ansibleguy/base-bootstrap'
+  issue_tracker_url: 'https://github.com/ansibleguy/base-bootstrap/issues'
+  github_branch: 'stable'
+  min_ansible_version: 2.9.0
   description: 'Role to bootstrap a linux server (basic setup tasks)'
   platforms:
     - name: Debian
@@ -21,7 +23,9 @@ galaxy_info:
     - 'openssh'
     - 'autoupdate'
     - 'network'
-  dependencies:
-    - 'ansibleguy.base-ufw'
-    - 'ansibleguy.base-user'
-    - 'ansibleguy.base-network'
+    - 'update'
+
+dependencies:
+  - 'ansibleguy.base-ufw'
+  - 'ansibleguy.base-user'
+  - 'ansibleguy.base-network'

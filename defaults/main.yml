@@ -41,7 +41,7 @@ default_auto_update_config:
   time: 'Sun 00:00'  # for syntax see: https://wiki.archlinux.org/title/Systemd/Timers
   install_recommended: true
   install_security: true
-  exclusions: []
+  exclusions: ['mariadb-server', 'mysql-community-server', 'mysql-server']
   exclude_kernel: false
   auto_fix: true  # automatically try to fix install-errors
   on_shutdown: false  # install updates on shutdown

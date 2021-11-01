@@ -20,7 +20,6 @@
     group: 'root'
     mode: 0644
     backup: "{{ backup_config }}"
-  notify: 'restart_sshd'
   when: >
     ssh_lockout_check.user_input is undefined or
     ssh_lockout_check.user_input in ['y', 'yes', 'Y', 'YES']
@@ -35,7 +34,6 @@
     owner: 'root'
     group: 'root'
     mode: 0644
-  notify: 'restart_sshd'
   when: ssh_config.msg | default(default_ssh_config.msg)
 
 - name: Bootstrap | SSH | Deploying ssh post-login banner
@@ -48,5 +46,9 @@
     owner: 'root'
     group: 'root'
     mode: 0644
-  notify: 'restart_sshd'
   when: ssh_config.msg | default(default_ssh_config.msg)
+
+- name: Bootstrap | SSH | Restarting ssh service
+  ansible.builtin.systemd:
+    name: sshd
+    state: restarted
