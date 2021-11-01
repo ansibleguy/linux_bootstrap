@@ -31,7 +31,7 @@
 
 - name: Bootstrap | Processing users
   ansible.builtin.import_role:
-    name: ansibleguy.base-user
+    name: ansibleguy.linux_users
   when: >
     configure_users and
     ((users is defined and users | length > 0) or
@@ -39,5 +39,5 @@
 
 - name: Bootstrap | Processing network
   ansible.builtin.import_role:
-    name: ansibleguy.base-network
+    name: ansibleguy.linux_networking
   when: configure_network

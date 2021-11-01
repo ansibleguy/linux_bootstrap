@@ -39,7 +39,7 @@
 
 - name: Bootstrap | Debian | Configuring firewall
   ansible.builtin.include_role:
-    name: ansibleguy.base-ufw
+    name: ansibleguy.infra_ufw
   tags:
     - ufw
     - firewall

@@ -4,8 +4,8 @@ galaxy_info:
   author: 'AnsibleGuy <guy@ansibleguy.net>'
   readme: 'README.md'
   license: 'MIT'
-  repository: 'https://github.com/ansibleguy/base-bootstrap'
-  issue_tracker_url: 'https://github.com/ansibleguy/base-bootstrap/issues'
+  repository: 'https://github.com/ansibleguy/linux_bootstrap'
+  issue_tracker_url: 'https://github.com/ansibleguy/linux_bootstrap/issues'
   github_branch: 'stable'
   min_ansible_version: 2.9.0
   description: 'Role to bootstrap a linux server (basic setup tasks)'
@@ -26,6 +26,6 @@ galaxy_info:
     - 'update'
 
 dependencies:
-  - 'ansibleguy.base_ufw'
-  - 'ansibleguy.base_user'
-  - 'ansibleguy.base_network'
+  - 'ansibleguy.infra_ufw'
+  - 'ansibleguy.linux_users'
+  - 'ansibleguy.linux_networking'

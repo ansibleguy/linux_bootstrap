@@ -16,9 +16,9 @@ Ansible linux system bootstrap role
   * Hostname & local dns resolution
   * Default opt-in:
     * OpenSSH server
-    * Users/Groups => using [THIS](https://github.com/ansibleguy/base-user) role
-    * UFW => using [THIS](https://github.com/ansibleguy/base-ufw) role
-    * Network => using [THIS](https://github.com/ansibleguy/base-network) role
+    * Users/Groups => using [THIS](https://github.com/ansibleguy/linux_users) role
+    * UFW => using [THIS](https://github.com/ansibleguy/infra_ufw) role
+    * Network => using [THIS](https://github.com/ansibleguy/linux_networking) role
   * Default opt-out:
     * auto-updates
 
@@ -51,7 +51,7 @@ auto_update_config:
   exclusions: ['haproxy']
   logging_verbose: true
 
-users:  # more info: https://github.com/ansibleguy/base-user
+users:  # more info: https://github.com/ansibleguy/linux_users
   guy:
     comment: 'AnsibleGuy'
     ssh_pub: 'ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBKkIlii1iJM240yPSPS5WhrdQwGFa7BTJZ59ia40wgVWjjg1JlTtr9K2W66fNb2zNO7tLkaNzPddMEsov2bJAno= guy@ansibleguy.net'
@@ -63,12 +63,12 @@ user_groups:
     members: ['guy']
     member_of: ['ag_users']
 
-network_interfaces:  # more info: https://github.com/ansibleguy/base-network
+network_interfaces:  # more info: https://github.com/ansibleguy/linux_networking
   ens192:
     address: '192.168.142.90/24'
     gateway: '192.168.142.1'
 
-ufw_rules:  # more info: https://github.com/ansibleguy/base-ufw
+ufw_rules:  # more info: https://github.com/ansibleguy/infra_ufw
   ssh:
     port: 22
     proto: 'tcp'
