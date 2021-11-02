@@ -24,8 +24,3 @@ galaxy_info:
     - 'autoupdate'
     - 'network'
     - 'update'
-
-dependencies:
-  - 'ansibleguy.infra_ufw'
-  - 'ansibleguy.linux_users'
-  - 'ansibleguy.linux_networking'
