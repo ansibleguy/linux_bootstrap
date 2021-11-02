@@ -5,9 +5,15 @@ roles:
   - src: 'https://github.com/ansibleguy/infra_ufw.git'
     version: 'stable'
     name: 'ansibleguy.infra_ufw'
+
   - src: 'https://github.com/ansibleguy/linux_users.git'
     version: 'stable'
     name: 'ansibleguy.linux_users'
+
   - src: 'https://github.com/ansibleguy/linux_networking.git'
     version: 'stable'
     name: 'ansibleguy.linux_networking'
+
+collections:
+  - name: 'community.general'
+    source: 'https://galaxy.ansible.com'

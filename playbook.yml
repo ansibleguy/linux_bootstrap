@@ -1,0 +1,33 @@
+---
+
+# you might need to run the playbook with some extra-vars at the first time since the users and ssh-config is not yet initialized
+#   ansible-playbook -k -D -i inventory/hosts.yml playbook.yml -e ansible_port=22 -e ansible_user=root --ask-vault-pass
+
+# after that you can re-run it without those
+#   ansible-playbook -K -D -i inventory/hosts.yml playbook.yml --ask-vault-pass
+
+- name: Bootstrapping linux
+  become: true
+  hosts: all
+
+  vars:
+    # the network, ufw, ssh and update config needs to be set in the inventory hosts
+
+    users: # more info: https://github.com/ansibleguy/linux_users
+      guy:
+        comment: 'AnsibleGuy'
+        ssh_pub: 'ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBKkIlii1iJM240yPSPS5WhrdQwGFa7BTJZ59ia40wgVWjjg1JlTtr9K2W66fNb2zNO7tLkaNzPddMEsov2bJAno= guy@ansibleguy.net'
+
+    user_groups:
+      ag_users:
+        members: [ ]
+      ag_admins:
+        members: [ 'guy' ]
+        member_of: [ 'ag_users' ]
+
+#  vars_files:  # you might want to write your user/group config to external files, so you can use it in multiple playbooks
+#  - vars/user.yml
+#  - vars/group.yml
+
+  roles:
+  - ansibleguy.linux_bootstrap

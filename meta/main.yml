@@ -24,3 +24,11 @@ galaxy_info:
     - 'autoupdate'
     - 'network'
     - 'update'
+
+requirements:
+  - 'ansibleguy.linux_networking'
+  - 'ansibleguy.linux_users'
+  - 'ansibleguy.infra_ufw'
+
+collections:
+  - 'community.general'

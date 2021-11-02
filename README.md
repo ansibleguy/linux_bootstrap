@@ -26,14 +26,14 @@ Ansible linux system bootstrap role
 **Note:** Most of this functionality can be opted in or out using the main defaults file and variables!
 
 
-## Setup
-To use the full functionality of this role you must first install its dependencies:
+## Requirements
 
-```
-ansible-galaxy install -r requirements.yml
-```
+* Community collection and sub-roles: ```ansible-galaxy install -r requirements.yml```
+
 
 ## Usage
+
+Define the ssh/update/user/group/network/ufw config as needed.
 
 ```yaml
 ssh_config:
@@ -77,4 +77,13 @@ ufw_rules:  # more info: https://github.com/ansibleguy/infra_ufw
   webServer:
     port: 80,443
     proto: 'tcp'
+```
+
+Run the playbook:
+```bash
+# first time
+ansible-playbook -k -D -i inventory/hosts.yml playbook.yml -e ansible_port=22 -e ansible_user=root --ask-vault-pass```
+
+# subsequent runs
+ansible-playbook -K -D -i inventory/hosts.yml playbook.yml --ask-vault-pass
 ```
