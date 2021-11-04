@@ -1,29 +1,39 @@
 # Linux Bootstrap
 Ansible linux system bootstrap role
 
-**Note:** this role currently only supports debian-based systems
-
 **Tested:**
 * Debian 11
 
 ## Functionality
 
-* Package installation
+* **Package installation**
   * Ansible dependencies (_minimal_)
   * Administrative tools
   * Virtual machine guest-tools (_vm only_)
-* Configuration
+
+
+* **Configuration**
   * Hostname & local dns resolution
   * Default opt-in:
     * OpenSSH server
     * Users/Groups => using [THIS](https://github.com/ansibleguy/linux_users) role
     * UFW => using [THIS](https://github.com/ansibleguy/infra_ufw) role
     * Network => using [THIS](https://github.com/ansibleguy/linux_networking) role
-  * Default opt-out:
+
+
+  * **Default opt-out**:
     * auto-updates
 
 
-**Note:** Most of this functionality can be opted in or out using the main defaults file and variables!
+## Info
+
+* **Note:** Most of this functionality can be opted in or out using the main defaults file and variables!
+
+
+* **Note:** this role currently only supports debian-based systems
+
+
+* **Warning:** Not every setting/variable you provide will be checked for validity. Bad config might break the role!
 
 
 ## Requirements

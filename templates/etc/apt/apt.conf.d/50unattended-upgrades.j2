@@ -1,4 +1,5 @@
-# {{ ansible_managed }} - role {{ role_name }}
+# {{ ansible_managed }}
+# ansibleguy.linux_bootstrap
 
 Unattended-Upgrade::Origins-Pattern {
 {% if auto_update_config.install_recommended | default(default_auto_update_config.install_recommended) %}

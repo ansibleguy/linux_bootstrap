@@ -1,3 +1,6 @@
+# {{ ansible_managed }}
+# ansibleguy.linux_bootstrap
+
 [Timer]
 OnCalendar=
 OnCalendar={{ auto_update_config.time | default(default_auto_update_config.time) }}
