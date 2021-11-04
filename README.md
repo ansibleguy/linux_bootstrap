@@ -33,6 +33,8 @@ Ansible linux system bootstrap role
 
 ## Usage
 
+### Config
+
 Define the ssh/update/user/group/network/ufw config as needed.
 
 ```yaml
@@ -78,6 +80,8 @@ ufw_rules:  # more info: https://github.com/ansibleguy/infra_ufw
     port: 80,443
     proto: 'tcp'
 ```
+
+### Execution
 
 Run the playbook:
 ```bash
