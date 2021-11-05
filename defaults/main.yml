@@ -58,7 +58,7 @@ default_auto_update_config:
 #   only a basic configuration is supported by this rule
 #   for more complex setups you would need to use another role and disable ssh processing in this one
 default_ssh_config:
-  port: 22
+  port: "{{ ansible_port }}"
   allow_root: false
   auth_multi: false  # require both publickey and password to log-in
   auth_pwd: true  # allow to use password-authentication to log-in
