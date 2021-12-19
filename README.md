@@ -1,5 +1,8 @@
 # Linux Bootstrap
-Ansible linux system bootstrap role
+Ansible Role to bootstrap linux servers.
+
+It runs some basic setup tasks to bring a cleanly installed linux server up to the needed standards for further usage.
+
 
 **Tested:**
 * Debian 11
