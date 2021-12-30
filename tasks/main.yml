@@ -30,7 +30,7 @@
   when: "ansible_distribution|lower in ['debian', 'ubuntu']"
 
 - name: Bootstrap | Processing users
-  ansible.builtin.import_role:
+  ansible.builtin.include_role:
     name: ansibleguy.linux_users
   when: >
     configure_users and
@@ -38,6 +38,6 @@
     (user_groups is defined and user_groups | length > 0))
 
 - name: Bootstrap | Processing network
-  ansible.builtin.import_role:
+  ansible.builtin.include_role:
     name: ansibleguy.linux_networking
   when: configure_network
