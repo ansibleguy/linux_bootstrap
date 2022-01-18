@@ -1,0 +1,15 @@
+---
+
+- name: Bootstrap | Debian | Configure ssh
+  ansible.builtin.import_tasks: ssh.yml
+  when: BOOTSTRAP.ssh.configure
+  tags: ssh
+
+- name: Bootstrap | Debian | Configuring firewall
+  ansible.builtin.include_role:
+    name: ansibleguy.infra_ufw
+  tags: [ufw, firewall]
+  when:
+    - BOOTSTRAP.configure_firewall
+    - ufw_rules is defined
+    - ufw_rules | length > 0

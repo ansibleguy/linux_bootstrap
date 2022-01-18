@@ -1,0 +1,34 @@
+---
+
+- name: Bootstrap | Debian | Install base packages
+  ansible.builtin.apt:
+    name: "{{ BOOTY_HC.base_packages.debian[ansible_distribution_major_version] | default(BOOTY_HC.base_packages.debian.other) }}"
+    state: present
+    update_cache: yes
+
+- name: Bootstrap | Debian | Install tools
+  ansible.builtin.apt:
+    name: "{{ BOOTSTRAP.tools.debian[ansible_distribution_major_version] | default(BOOTSTRAP.tools.debian.other) }}"
+    state: present
+  when: BOOTSTRAP.install_tools
+
+- name: Bootstrap | Debian | Install guest tools
+  ansible.builtin.apt:
+    name: "{{ BOOTY_HC.vm_packages.debian[ansible_distribution_major_version] | default(BOOTY_HC.vm_packages.debian.other) }}"
+    state: present
+  when:
+    - ansible_virtualization_role is defined
+    - ansible_virtualization_role == 'guest'
+
+- name: Bootstrap | Debian | Set localhost name resolution
+  ansible.builtin.lineinfile:
+    dest: '/etc/hosts'
+    regexp: '^127.0.1.1(.*)$'
+    line: "127.0.1.1 {{ inventory_hostname }}{% if BOOTSTRAP.host_fqdn is defined %} {{ BOOTSTRAP.host_fqdn }}{% endif %}{% if host_fqdn is defined %} {{ host_fqdn }}{% endif %}"
+    state: present
+    backrefs: yes
+
+- name: Bootstrap | Debian | AutoUpdate config
+  ansible.builtin.import_tasks: update.yml
+  when: BOOTSTRAP.auto_update.enable
+  tags: update

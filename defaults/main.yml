@@ -1,77 +1,90 @@
 ---
 
-# main switches
-configure_network: true
-configure_firewall: true
-configure_users: true
-configure_ssh: true
-configure_auto_update: false
-backup_config: false  # if the ansible backup-flag should be set for important config-files
+default_bootstrap:
+  configure_network: false
+  configure_firewall: false
+  configure_users: true
+  install_tools: true
 
-# python version check
-check_python_interpreter:
-  debian:
-    '11': '/usr/bin/python3'
-    other: '/usr/bin/python'
-  other: '/usr/bin/python3'
+  # NOTE: the bootstrapping process might fail when applying the new network configuration => you can just re-run the bootstrap playbook manually if you'd like to!
+  # IF you want to finish the bootstrapping in one run, we might need to switch ssh-users in the middle of it
+  #   therefore you need to provide these credentials
+  # post_ssh_user: 'guy'  # if you want to re-connect using another user (after user-provisioning)
+  # post_ssh_pass: !vault ...  # if the password for the other user differs, you can provide it here
 
-# packages
-base_packages:
-  debian:
-    '11': ['python3', 'sudo']
-    other: ['python', 'python3', 'sudo']
+  # NOTE: fqdn can also be defined outside the 'bootstrap' dictionary
+  # host_fqdn: 'host.bootstrap.template.ansibleguy.net'
 
-vm_packages:
-  debian:
-    other: ['open-vm-tools']
+  tools:
+    debian:
+      other:
+        - 'ncdu'  # disk allocation
+        - 'net-tools'  # network diagnostics
+        - 'dnsutils'  # name resolution diagnostics
+        - 'iotop'  # disk read/write diagnostics
+        - 'iftop'  # network transfer diagnostics
 
-install_tools: true
-install_tools_list:
-  debian:
-    other:
-      - 'ncdu'  # disk allocation check
-      - 'net-tools'  # network diagnostics
-      - 'dnsutils'  # name resolution diagnostics
-      - 'iotop'  # disk read/write diagnostics
-      - 'iftop'  # network transfer diagnostics
+  auto_update:
+    enable: false
+    time: 'Sun 00:00'  # for syntax see: https://wiki.archlinux.org/title/Systemd/Timers
+    install_recommended: true
+    install_security: true
+    exclusions: ['mariadb-server', 'mysql-community-server', 'mysql-server']
+    exclude_kernel: false
+    auto_fix: true  # automatically try to fix install-errors
+    on_shutdown: false  # install updates on shutdown
+    remove_unused_kernel: true  # clean-up old kernel packages after updates
+    remove_unused_packages: false  # could break scripts and so on; since their packages are 'unused' as of apt's knowledge
+    auto_reboot: false
+    auto_reboot_with_users: false
+    auto_reboot_time: '02:00'
+    logging: true
+    logging_verbose: false
 
-# update config
-#   can be overwritten via 'auto_update_config' dictionary-variable
-default_auto_update_config:
-  time: 'Sun 00:00'  # for syntax see: https://wiki.archlinux.org/title/Systemd/Timers
-  install_recommended: true
-  install_security: true
-  exclusions: ['mariadb-server', 'mysql-community-server', 'mysql-server']
-  exclude_kernel: false
-  auto_fix: true  # automatically try to fix install-errors
-  on_shutdown: false  # install updates on shutdown
-  remove_unused_kernel: true  # clean-up old kernel packages after updates
-  remove_unused_packages: false  # could break scripts and so on; since their packages are 'unused' as of apt's knowledge
-  auto_reboot: false
-  auto_reboot_with_users: false
-  auto_reboot_time: '02:00'
-  logging: true
-  logging_verbose: false
+  ssh:
+    configure: true
+    # only a basic configuration is supported by this rule
+    # for more complex setups you would need to use another role and disable ssh processing in this one
+    port: "{{ ansible_port }}"
+    allow_root: false
+    auth_multi: false  # require both publickey and password
+    auth_pwd: true  # allowing password-authentication
+    auth_pubkey: true  # allowing publickey-authentication
+    msg: false
+    banner_msg:
+      - ' '
+      - '----------------------'
+      - '| Restricted  access |'
+      - '| You shall not pass |'
+      - '----------------------'
+      - ' '
+    welcome_msg:
+      - ' '
+      - '----------------------------------'
+      - '|     Welcome to this server     |'
+      - '| Your activities will be logged |'
+      - '|       Proceed with care!       |'
+      - '----------------------------------'
+      - ' '
 
-# ssh config
-#   can be overwritten via 'ssh_config' dictionary-variable
-#   only a basic configuration is supported by this rule
-#   for more complex setups you would need to use another role and disable ssh processing in this one
-default_ssh_config:
-  port: "{{ ansible_port }}"
-  allow_root: false
-  auth_multi: false  # require both publickey and password to log-in
-  auth_pwd: true  # allow to use password-authentication to log-in
-  auth_pubkey: true  # allow to use publickey-authentication to log-in
-  msg: false
-  banner_msg:
-    - '----------------------'
-    - '| Restricted  access |'
-    - '| You shall not pass |'
-    - '----------------------'
-  welcome_msg:
-    - '----------------------------------'
-    - '|     Welcome to this server     |'
-    - '| Your activities will be logged |'
-    - '|       Proceed with care!       |'
-    - '----------------------------------'
+bootstrap: {}
+
+BOOTSTRAP: "{{ default_bootstrap | combine(booty | default(bootstrap), recursive=true) }}"
+
+BOOTY_HC:
+  # python version check
+  check_python_interpreter:
+    debian:
+      '11': '/usr/bin/python3'
+      other: '/usr/bin/python'
+    other: '/usr/bin/python3'
+
+  # packages
+  base_packages:
+    debian:
+      '11': ['python3', 'sudo']
+      other: ['python', 'python3', 'sudo']
+
+  vm_packages:
+    debian:
+      other: ['open-vm-tools']

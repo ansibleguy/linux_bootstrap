@@ -13,19 +13,18 @@ It runs some basic setup tasks to bring a cleanly installed linux server up to t
   * Ansible dependencies (_minimal_)
   * Administrative tools
   * Virtual machine guest-tools (_vm only_)
+  * lightweight administrative tools
 
 
-* **Configuration**
-  * Hostname & local dns resolution
-  * Default opt-in:
-    * OpenSSH server
-    * Users/Groups => using [THIS](https://github.com/ansibleguy/linux_users) role
-    * UFW => using [THIS](https://github.com/ansibleguy/infra_ufw) role
-    * Network => using [THIS](https://github.com/ansibleguy/linux_networking) role
+* **Default opt-in**:
+  * OpenSSH server
+  * Users/Groups => using [THIS](https://github.com/ansibleguy/linux_users) role
 
 
-  * **Default opt-out**:
-    * auto-updates
+* **Default opt-out**:
+  * Auto-updates
+  * UFW => using [THIS](https://github.com/ansibleguy/infra_ufw) role
+  * Network(-interfaces) => using [THIS](https://github.com/ansibleguy/linux_networking) role
 
 
 ## Info
@@ -51,41 +50,51 @@ It runs some basic setup tasks to bring a cleanly installed linux server up to t
 Define the ssh/update/user/group/network/ufw config as needed.
 
 ```yaml
-ssh_config:
-  port: 10022
-  auto_pwd: false
-  # auth_multi: true  # if you want to enforce pwd & pubkey combined for ssh-authentication
-  msg: true  # show login pre- and post-login banner
-  welcome_msg:
-    - 'Welcome! :D'
-    - "And don't forget => 'rm -rf / --no-preserve-root' is bad practise"
+bootstrap:
+  configure_network: true
+  configure_firewall: true
+  configure_users: true
+  install_tools: true
+  
+  host_fqdn: 'host.bootstrap.template.ansibleguy.net'  # optional
+  
+  ssh:
+    configure: true
+    port: 10022
+    auto_pwd: false
+    # auth_multi: true  # if you want to enforce pwd & pubkey combined for ssh-authentication
+    msg: true  # show pre- and post-login banners
+    welcome_msg:
+      - 'Welcome to the secret server!'
 
-configure_auto_update: true
-auto_update_config:
-  exclude_kernel: true
-  exclusions: ['haproxy']
-  logging_verbose: true
+  auto_update:
+    enable: true
+    exclude_kernel: true
+    exclusions: ['haproxy']
+    logging_verbose: true
 
-users:  # more info: https://github.com/ansibleguy/linux_users
-  guy:
-    comment: 'AnsibleGuy'
-    ssh_pub: 'ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBKkIlii1iJM240yPSPS5WhrdQwGFa7BTJZ59ia40wgVWjjg1JlTtr9K2W66fNb2zNO7tLkaNzPddMEsov2bJAno= guy@ansibleguy.net'
+system_auth:
+  users:  # more info: https://github.com/ansibleguy/linux_users
+    guy:
+      comment: 'AnsibleGuy'
+      ssh_pub: 'ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBKkIlii1iJM240yPSPS5WhrdQwGFa7BTJZ59ia40wgVWjjg1JlTtr9K2W66fNb2zNO7tLkaNzPddMEsov2bJAno= guy@ansibleguy.net'
+  
+  groups:
+    ag_users:
+      members: []
+    ag_admins:
+      members: ['guy']
+      member_of: ['ag_users']
 
-user_groups:
-  ag_users:
-    members: []
-  ag_admins:
-    members: ['guy']
-    member_of: ['ag_users']
-
-network_interfaces:  # more info: https://github.com/ansibleguy/linux_networking
-  ens192:
-    address: '192.168.142.90/24'
-    gateway: '192.168.142.1'
+network:  # more info: https://github.com/ansibleguy/linux_networking
+  interfaces:
+    ens192:
+      address: '192.168.142.90/24'
+      gateway: '192.168.142.1'
 
 ufw_rules:  # more info: https://github.com/ansibleguy/infra_ufw
   ssh:
-    port: 22
+    port: 10022
     proto: 'tcp'
     log: true
     rule: 'limit'
@@ -98,9 +107,18 @@ ufw_rules:  # more info: https://github.com/ansibleguy/infra_ufw
 
 Run the playbook:
 ```bash
-# first time
-ansible-playbook -k -D -i inventory/hosts.yml playbook.yml -e ansible_port=22 -e ansible_user=root --ask-vault-pass```
+# connecting the first time using root and the default ssh-port:
+ansible-playbook -k -D -i inventory/hosts.yml playbook.yml -e ansible_port=22 -e ansible_user=root --ask-vault-pass
 
-# subsequent runs
+# or (re-)run it with a privileged user:
 ansible-playbook -K -D -i inventory/hosts.yml playbook.yml --ask-vault-pass
 ```
+
+There are also some useful **tags** available:
+* base
+* interfaces
+* routing
+* auth
+* update
+* ufw
+* ssh

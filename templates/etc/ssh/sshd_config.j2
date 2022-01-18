@@ -2,23 +2,23 @@
 # ansibleguy.linux_bootstrap
 
 # custom config
-Port {{ ssh_config.port | default(default_ssh_config.port) }}
-PermitRootLogin {% if ssh_config.allow_root | default(default_ssh_config.allow_root) %}yes{% else %}no{% endif %}
+Port {{ BOOTSTRAP.ssh.port }}
+PermitRootLogin {% if BOOTSTRAP.ssh.allow_root %}yes{% else %}no{% endif %}
 
-{% if ssh_config.auth_multi | default(default_ssh_config.auth_multi) %}
+{% if BOOTSTRAP.ssh.auth_multi %}
 AuthenticationMethods "publickey,password"
 PasswordAuthentication yes
 PubkeyAuthentication yes
 
 {% else %}
-PubkeyAuthentication {% if ssh_config.auth_pwd | default(default_ssh_config.auth_pwd) %}yes{% else %}no{% endif %}
+PubkeyAuthentication {% if BOOTSTRAP.ssh.auth_pwd %}yes{% else %}no{% endif %}
 
-PasswordAuthentication {% if ssh_config.auth_pubkey | default(default_ssh_config.auth_pubkey) %}yes{% else %}no{% endif %}
+PasswordAuthentication {% if BOOTSTRAP.ssh.auth_pubkey %}yes{% else %}no{% endif %}
 {% endif %}
 
 
 # login messages
-{% if ssh_config.msg | default(default_ssh_config.msg) %}
+{% if BOOTSTRAP.ssh.msg %}
 Banner /etc/ssh/banner.txt
 {% endif %}
 
