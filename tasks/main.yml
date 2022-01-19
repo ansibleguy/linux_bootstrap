@@ -51,5 +51,7 @@
 - name: Bootstrap | Processing network
   ansible.builtin.include_role:
     name: ansibleguy.linux_networking
-  when: BOOTSTRAP.configure_network
+  when:
+    - BOOTSTRAP.configure_network
+    - network is defined
   tags: [interfaces, routing]
