@@ -61,4 +61,3 @@
 
 - name: Bootstrap | SSH | Re-connecting via ssh
   ansible.builtin.meta: reset_connection
-  when: ansible_port|int != BOOTSTRAP.ssh.port|int
