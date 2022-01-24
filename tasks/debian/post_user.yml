@@ -9,7 +9,4 @@
   ansible.builtin.include_role:
     name: ansibleguy.infra_ufw
   tags: [ufw, firewall]
-  when:
-    - BOOTSTRAP.configure_firewall
-    - ufw_rules is defined
-    - ufw_rules | length > 0
+  when: BOOTSTRAP.configure_firewall
