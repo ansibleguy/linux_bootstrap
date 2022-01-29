@@ -1,5 +1,6 @@
 ---
 
+# NOTE: if this task is stuck while executing => your target host might not have internet access (firewall/name resolution)
 - name: Bootstrap | Debian | Install base packages
   ansible.builtin.apt:
     name: "{{ BOOTY_HC.base_packages.debian[ansible_distribution_major_version] | default(BOOTY_HC.base_packages.debian.other) }}"
