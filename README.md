@@ -23,7 +23,7 @@ It runs some basic setup tasks to bring a cleanly installed linux server up to t
 
 * **Default opt-out**:
   * Auto-updates
-  * UFW => using [THIS](https://github.com/ansibleguy/infra_ufw) role
+  * UFW => using [THIS](https://github.com/ansibleguy/linux_ufw) role
   * Network(-interfaces) => using [THIS](https://github.com/ansibleguy/linux_networking) role
 
 
@@ -92,7 +92,7 @@ network:  # more info: https://github.com/ansibleguy/linux_networking
       address: '192.168.142.90/24'
       gateway: '192.168.142.1'
 
-ufw_rules:  # more info: https://github.com/ansibleguy/infra_ufw
+ufw_rules:  # more info: https://github.com/ansibleguy/linux_ufw
   ssh:
     port: 10022
     proto: 'tcp'

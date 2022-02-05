@@ -6,7 +6,8 @@ default_bootstrap:
   configure_users: true
   install_tools: true
 
-  # NOTE: the bootstrapping process might fail when applying the new network configuration => you can just re-run the bootstrap playbook manually if you'd like to!
+  # NOTE: the bootstrapping process might fail when applying the new network configuration
+  #   you can just re-run the bootstrap playbook manually if you'd like to!
   # IF you want to finish the bootstrapping in one run, we might need to switch ssh-users in the middle of it
   #   therefore you need to provide these credentials
   # post_ssh_user: 'guy'  # if you want to re-connect using another user (after user-provisioning)

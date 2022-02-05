@@ -1,10 +1,11 @@
+---
 # external roles and collections to download
 # install: ansible-galaxy install -r requirements.yml
 
 roles:
-  - src: 'https://github.com/ansibleguy/infra_ufw.git'
+  - src: 'https://github.com/ansibleguy/linux_ufw.git'
     version: 'stable'
-    name: 'ansibleguy.infra_ufw'
+    name: 'ansibleguy.linux_ufw'
 
   - src: 'https://github.com/ansibleguy/linux_users.git'
     version: 'stable'

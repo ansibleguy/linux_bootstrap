@@ -25,10 +25,5 @@ galaxy_info:
     - 'network'
     - 'update'
 
-#requirements:
-#  - 'ansibleguy.linux_networking'
-#  - 'ansibleguy.linux_users'
-#  - 'ansibleguy.infra_ufw'
-
 collections:
   - 'community.general'
