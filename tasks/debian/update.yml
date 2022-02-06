@@ -2,7 +2,7 @@
 
 - name: Bootstrap | Debian | AutoUpdate | Install update tool
   ansible.builtin.apt:
-    name: ['unattended-upgrades']
+    name: "{{ BOOTY_HC.update_packages }}"
     state: present
 
 - name: Bootstrap | Debian | AutoUpdate | Setting update time (1/2)

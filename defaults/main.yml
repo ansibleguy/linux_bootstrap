@@ -89,3 +89,5 @@ BOOTY_HC:
   vm_packages:
     debian:
       other: ['open-vm-tools']
+
+  update_packages: ['systemd', 'unattended-upgrades']
