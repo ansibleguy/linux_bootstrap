@@ -5,6 +5,9 @@
   when: BOOTSTRAP.ssh.configure
   tags: ssh
 
+- name: Bootstrap | SSH | Re-connecting via ssh
+  ansible.builtin.meta: reset_connection
+
 - name: Bootstrap | Debian | Configuring firewall
   ansible.builtin.include_role:
     name: ansibleguy.linux_ufw

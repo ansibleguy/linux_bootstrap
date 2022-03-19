@@ -1,0 +1,6 @@
+# {{ ansible_managed }}
+# ansibleguy.linux_bootstrap
+
+[Timer]
+OnCalendar=
+OnCalendar={{ BOOTSTRAP.auto_update.update_day }} {{ BOOTSTRAP.auto_update.time_upgrade }}

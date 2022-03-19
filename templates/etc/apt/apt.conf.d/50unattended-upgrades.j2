@@ -1,5 +1,15 @@
 # {{ ansible_managed }}
 # ansibleguy.linux_bootstrap
+# see: https://wiki.debian.org/UnattendedUpgrades
+
+APT::Periodic::Verbose "2";
+
+APT::Periodic::Enable "{% if BOOTSTRAP.auto_update.enable %}1{% else %}0{% endif %}";
+APT::Periodic::Update-Package-Lists "{% if BOOTSTRAP.auto_update.enable %}1{% else %}0{% endif %}";
+APT::Periodic::Unattended-Upgrade "{% if BOOTSTRAP.auto_update.enable %}1{% else %}0{% endif %}";
+APT::Periodic::Download-Upgradeable-Packages "{% if BOOTSTRAP.auto_update.enable %}1{% else %}0{% endif %}";
+APT::Periodic::Unattended-Upgrade "{% if BOOTSTRAP.auto_update.enable %}1{% else %}0{% endif %}";
+APT::Periodic::AutocleanInterval "{% if BOOTSTRAP.auto_update.remove_unused_packages %}21{% else %}0{% endif %}";
 
 Unattended-Upgrade::Origins-Pattern {
 {% if BOOTSTRAP.auto_update.install_recommended %}

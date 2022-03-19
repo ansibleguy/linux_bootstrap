@@ -52,12 +52,10 @@
     name: sshd
     state: restarted
 
+# todo: not working => connection will fail first run
 - name: Bootstrap | SSH | Updating ssh-config used by this ansible-execution
   ansible.builtin.set_fact:
-    ansible_user: "{{ BOOTSTRAP.post_ssh_user | default(ansible_user) }}"
+    ansible_user: "{{ BOOTSTRAP.post_ssh_user | default(ansible_user) | default(ansible_ssh_user) }}"
     ansible_become_pass: "{{ BOOTSTRAP.post_ssh_pass | default(ansible_ssh_pass) }}"
     ansible_port: "{{ BOOTSTRAP.ssh.port }}"
   when: ansible_port|int != BOOTSTRAP.ssh.port|int
-
-- name: Bootstrap | SSH | Re-connecting via ssh
-  ansible.builtin.meta: reset_connection
