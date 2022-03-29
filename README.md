@@ -3,6 +3,8 @@ Ansible Role to bootstrap linux servers.
 
 It runs some basic setup tasks to bring a cleanly installed linux server up to the needed standards for further usage.
 
+[![Ansible Galaxy](https://img.shields.io/ansible/role/56761)](https://galaxy.ansible.com/ansibleguy/linux_bootstrap)
+[![Ansible Galaxy Downloads](https://img.shields.io/badge/dynamic/json?color=blueviolet&label=Galaxy%20Downloads&query=%24.download_count&url=https%3A%2F%2Fgalaxy.ansible.com%2Fapi%2Fv1%2Froles%2F56761%2F%3Fformat%3Djson)](https://galaxy.ansible.com/ansibleguy/linux_bootstrap)
 
 **Tested:**
 * Debian 11
