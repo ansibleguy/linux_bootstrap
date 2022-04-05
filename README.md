@@ -14,7 +14,7 @@ It runs some basic setup tasks to bring a cleanly installed linux server up to t
 * **Package installation**
   * Ansible dependencies (_minimal_)
   * Administrative tools
-  * Virtual machine guest-tools (_vm only_)
+  * Virtual machine guest-tools (_vmware/kvm_)
   * lightweight administrative tools
 
 

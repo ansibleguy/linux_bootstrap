@@ -90,7 +90,11 @@ BOOTY_HC:
       other: ['python', 'python3', 'sudo']
 
   vm_packages:
-    debian:
-      other: ['open-vm-tools']
+    vmware:
+      debian:
+        other: ['open-vm-tools']
+    kvm:
+      debian:
+        other: ['qemu-guest-agent']
 
   update_packages: ['systemd', 'unattended-upgrades', 'apt-listchanges']

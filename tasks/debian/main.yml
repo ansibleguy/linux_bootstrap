@@ -13,13 +13,23 @@
     state: present
   when: BOOTSTRAP.install_tools
 
-- name: Bootstrap | Debian | Install guest tools
+- name: Bootstrap | Debian | Install VMWare guest-tools
   ansible.builtin.apt:
-    name: "{{ BOOTY_HC.vm_packages.debian[ansible_distribution_major_version] | default(BOOTY_HC.vm_packages.debian.other) }}"
+    name: "{{ BOOTY_HC.vm_packages.vmware.debian[ansible_distribution_major_version] | default(BOOTY_HC.vm_packages.vmware.debian.other) }}"
     state: present
   when:
     - ansible_virtualization_role is defined
     - ansible_virtualization_role == 'guest'
+    - ansible_virtualization_type == 'VMware'
+
+- name: Bootstrap | Debian | Install KVM guest-tools
+  ansible.builtin.apt:
+    name: "{{ BOOTY_HC.vm_packages.kvm.debian[ansible_distribution_major_version] | default(BOOTY_HC.vm_packages.kvm.debian.other) }}"
+    state: present
+  when:
+    - ansible_virtualization_role is defined
+    - ansible_virtualization_role == 'guest'
+    - ansible_virtualization_type == 'kvm'
 
 - name: Bootstrap | Debian | Set localhost name resolution
   ansible.builtin.lineinfile:
