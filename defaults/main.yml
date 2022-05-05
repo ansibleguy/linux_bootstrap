@@ -27,10 +27,12 @@ default_bootstrap:
 
   auto_update:
     enable: false
-    # for syntax see: https://wiki.archlinux.org/title/Systemd/Timers
     update_day: 'Sun'  # overwrite via variable 'auto_update_day' for simpler per-host config
     time_update: '00:30:00'  # apt-get update
     time_upgrade: '01:00:00'  # apt-get upgrade
+    # for date-time format see:
+    #   https://wiki.archlinux.org/title/Systemd/Timers
+    #   https://silentlad.com/systemd-timers-oncalendar-(cron)-format-explained
     install_recommended: true
     install_security: true
     exclusions: ['mariadb-server', 'mysql-community-server', 'mysql-server']
