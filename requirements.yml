@@ -3,17 +3,9 @@
 # install: ansible-galaxy install -r requirements.yml
 
 roles:
-  - src: 'https://github.com/ansibleguy/linux_ufw.git'
-    version: 'stable'
-    name: 'ansibleguy.linux_ufw'
-
-  - src: 'https://github.com/ansibleguy/linux_users.git'
-    version: 'stable'
-    name: 'ansibleguy.linux_users'
-
-  - src: 'https://github.com/ansibleguy/linux_networking.git'
-    version: 'stable'
-    name: 'ansibleguy.linux_networking'
+  - src: 'ansibleguy.linux_ufw'
+  - src: 'ansibleguy.linux_users'
+  - src: 'ansibleguy.linux_networking'
 
 collections:
   - name: 'community.general'
