@@ -1,5 +1,7 @@
 ---
 
+# todo: hostname not resolved
+
 # NOTE: if this task is stuck while executing => your target host might not have internet access (firewall/name resolution)
 - name: Bootstrap | Debian | Install base packages
   ansible.builtin.apt:
@@ -19,8 +21,8 @@
     state: present
   when:
     - ansible_virtualization_role is defined
-    - ansible_virtualization_role == 'guest'
-    - ansible_virtualization_type == 'VMware'
+    - ansible_virtualization_role|lower == 'guest'
+    - ansible_virtualization_type|lower == 'vmware'
 
 - name: Bootstrap | Debian | Install KVM guest-tools
   ansible.builtin.apt:
@@ -28,8 +30,8 @@
     state: present
   when:
     - ansible_virtualization_role is defined
-    - ansible_virtualization_role == 'guest'
-    - ansible_virtualization_type == 'kvm'
+    - ansible_virtualization_role|lower == 'guest'
+    - ansible_virtualization_type|lower == 'kvm'
 
 - name: Bootstrap | Debian | Set localhost name resolution
   ansible.builtin.lineinfile:
@@ -45,3 +47,15 @@
   ansible.builtin.import_tasks: update.yml
   when: BOOTSTRAP.auto_update.enable
   tags: update
+
+- name: Bootstrap | Debian | AutoUpdate | Disabling auto-update services
+  ansible.builtin.systemd:
+    daemon_reload: yes
+    name: "{{ item }}"
+    state: stopped
+    enabled: no
+  changed_when: false
+  loop:
+    - 'apt-daily-upgrade.timer'
+    - 'apt-daily.timer'
+  when: not BOOTSTRAP.auto_update.enable
