@@ -3,10 +3,11 @@
 - name: Bootstrap | Debian | Configure ssh
   ansible.builtin.import_tasks: ssh.yml
   when: BOOTSTRAP.ssh.configure
-  tags: ssh
+  tags: [ssh]
 
-- name: Bootstrap | SSH | Re-connecting via ssh
-  ansible.builtin.meta: reset_connection
+# not working as a solution for issue#1
+#- name: Bootstrap | SSH | Re-connecting via ssh
+#  ansible.builtin.meta: reset_connection
 
 - name: Bootstrap | Debian | Configuring firewall
   ansible.builtin.include_role:

@@ -1,62 +1,40 @@
 ---
 
-- name: Bootstrap | Checking python intepreter
-  ansible.builtin.set_fact:
-    ansible_python_interpreter: "{{ BOOTY_HC.check_python_interpreter[ansible_distribution|lower][ansible_distribution_major_version]
-    | default(BOOTY_HC.check_python_interpreter.other) }}"
+- name: Bootstrap | Base config
+  ansible.builtin.import_tasks: base.yml
+  tags: [base]
   when: >
-    (ansible_python_interpreter is undefined and interpreter_python is undefined) or
-    (ansible_python_interpreter is defined and ansible_python_interpreter !=
-    BOOTY_HC.check_python_interpreter[ansible_distribution|lower][ansible_distribution_major_version]
-    | default(BOOTY_HC.check_python_interpreter.other)) or
-    (interpreter_python is defined and interpreter_python
-    != BOOTY_HC.check_python_interpreter[ansible_distribution|lower][ansible_distribution_major_version]
-    | default(BOOTY_HC.check_python_interpreter.other))
-  tags: [base]
-
-- name: Bootstrap | Getting local timezone
-  ansible.builtin.shell: "timedatectl | grep 'Time zone' | cut -d':' -f2 | cut -d' ' -f2"
-  register: controller_tz
-  delegate_to: localhost
-  when: timezone is undefined
-  changed_when: false
-  check_mode: false
-  become: false
-  tags: [base]
-
-- name: Bootstrap | Setting timezone on host
-  community.general.timezone:
-    name: "{{ timezone | default(controller_tz.stdout) }}"
-  tags: [base]
-
-- name: Bootstrap | Setting hostname
-  ansible.builtin.hostname:
-    name: "{{ inventory_hostname }}"
-  tags: [base]
-
-- name: Bootstrap | Processing debian base-config
-  ansible.builtin.import_tasks: debian/main.yml
-  when: "ansible_distribution|lower in ['debian', 'ubuntu']"
-  tags: [base]
+    part is undefined or
+    part|int == 1
 
 - name: Bootstrap | Processing users
   ansible.builtin.include_role:
     name: ansibleguy.linux_users
   when: >
-    BOOTSTRAP.configure_users and
+    (part is undefined or
+    part|int == 1)
+    and
+    (BOOTSTRAP.configure_users and
     ((system_auth.users is defined and system_auth.users | length > 0) or
-    (system_auth.groups is defined and system_auth.groups | length > 0))
+    (system_auth.groups is defined and system_auth.groups | length > 0)))
   tags: [users, groups, auth]
 
 - name: Bootstrap | Processing debian post-user config
   ansible.builtin.import_tasks: debian/post_user.yml
-  when: "ansible_distribution|lower in ['debian', 'ubuntu']"
   tags: [base]
+  when: >
+    (part is undefined or
+    part|int == 1)
+    and
+    ansible_distribution|lower in ['debian', 'ubuntu']
 
 - name: Bootstrap | Processing network
   ansible.builtin.include_role:
     name: ansibleguy.linux_networking
-  when:
-    - BOOTSTRAP.configure_network
-    - network is defined
+  when: >
+    (part is undefined or
+    part|int == 2)
+    and
+    BOOTSTRAP.configure_network and
+    network is defined
   tags: [interfaces, routing]

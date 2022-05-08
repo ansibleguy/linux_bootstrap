@@ -40,6 +40,13 @@ It runs some basic setup tasks to bring a cleanly installed linux server up to t
 * **Warning:** Not every setting/variable you provide will be checked for validity. Bad config might break the role!
 
 
+* **Info:** Prerequisites:
+
+  1. You must be able to connect via ssh with a user that has root privileges.
+  The easiest way to do this - is to set 'PermitRootLogin' to 'yes' temporarily and restart the sshd service.
+
+  2. Connect to the server one time using ssh to mark the host-key as known.
+
 ## Requirements
 
 * Community collection and sub-roles: ```ansible-galaxy install -r requirements.yml```
@@ -107,13 +114,38 @@ ufw_rules:  # more info: https://github.com/ansibleguy/linux_ufw
 
 ### Execution
 
+I've not yet found a solution for reloading the 'meta-variables' (_like the targets ip-address, ssh-port and ssh-credentials_) so the bootstrapping can be done in one run. See also: [Issue](https://github.com/ansibleguy/linux_bootstrap/issues/1)
+
+Therefor the bootstrapping got 'part'-flags as shown in the example below. 
+
 Run the playbook:
 ```bash
-# connecting the first time using root and the default ssh-port:
-ansible-playbook -k -D -i inventory/hosts.yml playbook.yml -e ansible_port=22 -e ansible_user=root --ask-vault-pass
+# prerequisites:
+#   1. you must be able to connect via ssh with a user that has root privileges
+#     the easiest way to do this - is to set 'PermitRootLogin' to 'yes' temporarily and restart the sshd service
+#   2. connect to the server one time using ssh to mark the host-key as known
 
-# or (re-)run it with a privileged user:
-ansible-playbook -K -D -i inventory/hosts.yml playbook.yml --ask-vault-pass
+# 1. connecting the first time using root, the default ssh-port and currently active ip
+#   this part will deploy: basics, auto-update, users & groups, ssh- and ufw-config
+#   NOTE: you might need to add the '--ask-vault-pass' flag if you're using ansible-vault to secure your user-passwords
+
+#   example using root
+init_user="root"
+init_port=22
+init_ip="192.168.0.1"
+ansible-playbook --ask-pass -D -i inventory/hosts.yml playbook.yml -e ansible_port="$init_port" -e ansible_user="$init_user" -e ansible_host="$init_ip" -e part=1
+
+#   example using other privileged user
+ansible-playbook --ask-become-pass -D -i inventory/hosts.yml playbook.yml -e ansible_port="$init_port" -e ansible_user="$init_user" -e ansible_host="$init_ip" -e part=1
+
+# 2. re-run to deploy the network config
+#   NOTE: if the ip-address changes - the network task will show an error
+#   example using a privileged user
+ansible-playbook --ask-become-pass -D -i inventory/hosts.yml playbook.yml -e ansible_host="$init_ip" --ask-vault-pass -e part=2
+
+# after this setup you can re-run the bootstrapping as often as you want/need to update its config
+#   NOTE: you might need to add the '--ask-vault-pass' flag if you're using ansible-vault to secure your user-passwords
+ansible-playbook -K -D -i inventory/hosts.yml playbook.yml
 ```
 
 There are also some useful **tags** available:
@@ -124,3 +156,5 @@ There are also some useful **tags** available:
 * update
 * ufw
 * ssh
+* part1
+* part2
