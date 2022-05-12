@@ -2,7 +2,9 @@
 
 - name: Bootstrap | Debian | Configure ssh
   ansible.builtin.import_tasks: ssh.yml
-  when: BOOTSTRAP.ssh.configure
+  when:
+    - BOOTSTRAP.ssh.configure
+    - part is undefined or part|int == 1
   tags: [ssh]
 
 # not working as a solution for issue#1
@@ -13,4 +15,6 @@
   ansible.builtin.include_role:
     name: ansibleguy.linux_ufw
   tags: [ufw, firewall]
-  when: BOOTSTRAP.configure_firewall
+  when:
+    - BOOTSTRAP.configure_firewall
+    - part is undefined or part|int == 2

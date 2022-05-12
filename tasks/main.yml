@@ -22,11 +22,7 @@
 - name: Bootstrap | Processing debian post-user config
   ansible.builtin.import_tasks: debian/post_user.yml
   tags: [base]
-  when: >
-    (part is undefined or
-    part|int == 1)
-    and
-    ansible_distribution|lower in ['debian', 'ubuntu']
+  when: ansible_distribution|lower in ['debian', 'ubuntu']
 
 - name: Bootstrap | Processing network
   ansible.builtin.include_role:
