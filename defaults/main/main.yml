@@ -1,6 +1,6 @@
 ---
 
-default_bootstrap:
+defaults_bo:
   configure_network: false
   configure_firewall: false
   configure_users: true
@@ -74,29 +74,4 @@ default_bootstrap:
       - ' '
 
 bootstrap: {}
-
-BOOTSTRAP: "{{ default_bootstrap | combine(booty | default(bootstrap), recursive=true) }}"
-
-BOOTY_HC:
-  # python version check
-  check_python_interpreter:
-    debian:
-      '11': '/usr/bin/python3'
-      other: '/usr/bin/python'
-    other: '/usr/bin/python3'
-
-  # packages
-  base_packages:
-    debian:
-      '11': ['python3', 'sudo']
-      other: ['python', 'python3', 'sudo']
-
-  vm_packages:
-    vmware:
-      debian:
-        other: ['open-vm-tools']
-    kvm:
-      debian:
-        other: ['qemu-guest-agent']
-
-  update_packages: ['systemd', 'unattended-upgrades', 'apt-listchanges']
+BOOTSTRAP: "{{ defaults_bo | combine(booty | default(bootstrap), recursive=true) }}"

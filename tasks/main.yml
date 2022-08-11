@@ -34,3 +34,5 @@
     BOOTSTRAP.configure_network and
     network is defined
   tags: [interfaces, routing]
+
+# todo: if some major config changed => ask user if we should reboot..

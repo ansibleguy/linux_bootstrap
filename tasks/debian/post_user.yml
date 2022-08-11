@@ -7,7 +7,7 @@
     - part is undefined or part|int == 1
   tags: [ssh]
 
-# not working as a solution for issue#1
+# not working as a solution for issue#1 => set variable 'ip' to new ip
 #- name: Bootstrap | SSH | Re-connecting via ssh
 #  ansible.builtin.meta: reset_connection
 

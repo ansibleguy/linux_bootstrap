@@ -28,7 +28,7 @@
 
 - name: Bootstrap | Setting hostname
   ansible.builtin.hostname:
-    name: "{{ inventory_hostname }}"
+    name: "{{ BOOTSTRAP.hostname | default(inventory_hostname) }}"
 
 - name: Bootstrap | Processing debian base-config
   ansible.builtin.import_tasks: debian/main.yml

@@ -36,7 +36,7 @@
 - name: Bootstrap | Debian | Set localhost name resolution
   ansible.builtin.lineinfile:
     dest: '/etc/hosts'
-    regexp: '^127.0.1.1(.*)$'
+    regexp: '^127.0.1.1'
     line: "127.0.1.1 {{ inventory_hostname }}
     {% if BOOTSTRAP.host_fqdn is defined %} {{ BOOTSTRAP.host_fqdn }}{% endif %}
     {% if host_fqdn is defined %} {{ host_fqdn }}{% endif %}"

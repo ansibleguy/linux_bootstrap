@@ -1,0 +1,25 @@
+---
+
+BOOTY_HC:
+  # python version check
+  check_python_interpreter:
+    debian:
+      '11': '/usr/bin/python3'
+      other: '/usr/bin/python'
+    other: '/usr/bin/python3'
+
+  # packages
+  base_packages:
+    debian:
+      '11': ['python3', 'sudo']
+      other: ['python', 'python3', 'sudo']
+
+  vm_packages:
+    vmware:
+      debian:
+        other: ['open-vm-tools']
+    kvm:
+      debian:
+        other: ['qemu-guest-agent']
+
+  update_packages: ['systemd', 'unattended-upgrades', 'apt-listchanges']
