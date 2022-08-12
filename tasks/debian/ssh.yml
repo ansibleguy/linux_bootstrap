@@ -49,7 +49,7 @@
 
 - name: Bootstrap | SSH | Restarting ssh service
   ansible.builtin.systemd:
-    name: sshd
+    name: 'sshd'
     state: restarted
 
 # todo: not working => connection will fail first run
