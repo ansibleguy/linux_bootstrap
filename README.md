@@ -31,7 +31,10 @@ It runs some basic setup tasks to bring a cleanly installed linux server up to t
 
 ## Info
 
-* **Note:** Most of this functionality can be opted in or out using the main defaults file and variables!
+* **Note:** Most of the role's functionality can be opted in or out.
+
+  For all available options - see the default-config located in the main defaults-file!
+
 
 
 * **Note:** this role currently only supports debian-based systems
