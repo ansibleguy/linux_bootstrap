@@ -1,0 +1,28 @@
+---
+
+- name: Converge
+  hosts: grp_targets
+  strategy: free  # speed-up; comment-out to gain clarity
+  vars:
+    no_prompts: true  # mariadb prompts
+
+    zoneminder:
+      tools: true
+      timezone: 'Europe/Vienna'
+
+      manage:
+        db: true
+        webserver: true
+
+      apache:
+        domain: 'zoneminder.test.ansibleguy.net'
+
+        ssl:
+          mode: 'ca'
+          cert:
+            cn: 'ZoneMinder'
+            org: 'AnsibleGuy Test'
+            email: 'webmaster@mail.test.ansibleguy.net'
+
+  roles:
+    - ansibleguy.sw_zoneminder

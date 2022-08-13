@@ -1,0 +1,47 @@
+---
+
+references:
+  docker:
+    all: &docker_all
+      docker_host: 'tcp://molecule-docker.local:2375'
+      # docker_host: 'unix://var/run/docker.sock'  # localhost
+      purge_networks: true
+      image: 'debian:11-slim'
+      # for docker systemd config see: https://serverfault.com/questions/1053187/systemd-fails-to-run-in-a-docker-container-when-using-cgroupv2-cgroupns-priva
+      dockerfile: 'Dockerfile_debian11_systemd.j2'
+      build_image: yes
+      tmpfs: ['/tmp', '/run', '/run/lock']
+      privileged: true
+      command: '/sbin/init'
+
+dependency:
+  name: galaxy
+driver:
+  name: docker
+platforms:
+  - name: test-ag-zm-tester
+    docker_networks:
+      - name: 'test-ag-zm'
+        ipam_config:
+          - subnet: '192.168.0.0/24'
+            gateway: '192.168.0.254'
+    networks:
+      - name: 'test-ag-zm'
+        ipv4_address: '192.168.0.1'
+    groups: [grp_tester]
+    <<: *docker_all
+
+  - name: test-ag-zm-1
+    networks:
+      - name: 'test-ag-zm'
+        ipv4_address: '192.168.0.20'
+    groups: [grp_targets]
+    <<: *docker_all
+
+provisioner:
+  name: ansible
+  #  config_options:
+  #    defaults:
+  #      vault_password_file: '~/.vault_pwd_file'
+verifier:
+  name: ansible
