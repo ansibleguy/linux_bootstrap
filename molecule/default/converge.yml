@@ -22,7 +22,7 @@
           cert:
             cn: 'ZoneMinder'
             org: 'AnsibleGuy Test'
-            email: 'webmaster@mail.test.ansibleguy.net'
+            email: 'testmaster@ansibleguy.net'
 
   roles:
     - ansibleguy.sw_zoneminder

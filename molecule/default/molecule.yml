@@ -19,21 +19,21 @@ dependency:
 driver:
   name: docker
 platforms:
-  - name: test-ag-zm-tester
+  - name: test-ag-zm-tester-${USER}
     docker_networks:
-      - name: 'test-ag-zm'
+      - name: 'test-ag-zm-${USER}'
         ipam_config:
           - subnet: '192.168.0.0/24'
             gateway: '192.168.0.254'
     networks:
-      - name: 'test-ag-zm'
+      - name: 'test-ag-zm-${USER}'
         ipv4_address: '192.168.0.1'
     groups: [grp_tester]
     <<: *docker_all
 
-  - name: test-ag-zm-1
+  - name: test-ag-zm-1-${USER}
     networks:
-      - name: 'test-ag-zm'
+      - name: 'test-ag-zm-${USER}'
         ipv4_address: '192.168.0.20'
     groups: [grp_targets]
     <<: *docker_all
