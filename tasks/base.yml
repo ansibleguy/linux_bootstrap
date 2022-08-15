@@ -14,7 +14,9 @@
     | default(BOOTY_HC.check_python_interpreter.other))
 
 - name: Bootstrap | Getting local timezone
-  ansible.builtin.shell: "timedatectl | grep 'Time zone' | cut -d':' -f2 | cut -d' ' -f2"
+  ansible.builtin.shell: |
+    set -o pipefail
+    timedatectl | grep 'Time zone' | cut -d':' -f2 | cut -d' ' -f2
   register: controller_tz
   delegate_to: localhost
   when: timezone is undefined
