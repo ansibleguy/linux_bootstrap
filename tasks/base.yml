@@ -23,6 +23,8 @@
   changed_when: false
   check_mode: false
   become: false
+  args:
+    executable: '/bin/bash'
 
 - name: Bootstrap | Setting timezone on host
   community.general.timezone:
