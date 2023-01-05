@@ -2,15 +2,15 @@
 
 - name: Bootstrap | Checking python intepreter
   ansible.builtin.set_fact:
-    ansible_python_interpreter: "{{ BOOTY_HC.check_python_interpreter[ansible_distribution|lower][ansible_distribution_major_version]
+    ansible_python_interpreter: "{{ BOOTY_HC.check_python_interpreter[ansible_distribution | lower][ansible_distribution_major_version]
     | default(BOOTY_HC.check_python_interpreter.other) }}"
   when: >
     (ansible_python_interpreter is undefined and interpreter_python is undefined) or
     (ansible_python_interpreter is defined and ansible_python_interpreter !=
-    BOOTY_HC.check_python_interpreter[ansible_distribution|lower][ansible_distribution_major_version]
+    BOOTY_HC.check_python_interpreter[ansible_distribution | lower][ansible_distribution_major_version]
     | default(BOOTY_HC.check_python_interpreter.other)) or
     (interpreter_python is defined and interpreter_python
-    != BOOTY_HC.check_python_interpreter[ansible_distribution|lower][ansible_distribution_major_version]
+    != BOOTY_HC.check_python_interpreter[ansible_distribution | lower][ansible_distribution_major_version]
     | default(BOOTY_HC.check_python_interpreter.other))
 
 - name: Bootstrap | Getting local timezone
@@ -36,4 +36,4 @@
 
 - name: Bootstrap | Processing debian base-config
   ansible.builtin.import_tasks: debian/main.yml
-  when: "ansible_distribution|lower in ['debian', 'ubuntu']"
+  when: "ansible_distribution | lower in ['debian', 'ubuntu']"

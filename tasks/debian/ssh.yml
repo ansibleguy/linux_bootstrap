@@ -38,7 +38,7 @@
 - name: Bootstrap | SSH | Deploying ssh post-login banner
   ansible.builtin.copy:
     content: |
-      {% for line in  BOOTSTRAP.ssh.welcome_msg %}
+      {% for line in BOOTSTRAP.ssh.welcome_msg %}
       {{ line }}
       {% endfor %}
     dest: '/etc/motd'

@@ -36,3 +36,4 @@
   tags: [interfaces, routing]
 
 # todo: if some major config changed => ask user if we should reboot..
+# todo: ask for reboot => cleaner
