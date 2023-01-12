@@ -12,6 +12,18 @@ It runs some basic setup tasks to bring a cleanly installed linux server up to t
 **Tested:**
 * Debian 11
 
+## Install
+
+```bash
+ansible-galaxy install ansibleguy.linux_bootstrap
+
+# or to custom role-path
+ansible-galaxy install ansibleguy.linux_bootstrap --roles-path ./roles
+
+# install dependencies
+ansible-galaxy install -r requirements.yml
+```
+
 ## Functionality
 
 * **Package installation**
@@ -52,11 +64,6 @@ It runs some basic setup tasks to bring a cleanly installed linux server up to t
   The easiest way to do this - is to set 'PermitRootLogin' to 'yes' temporarily and restart the sshd service.
 
   2. Connect to the server one time using ssh to mark the host-key as known.
-
-## Requirements
-
-* Community collection and sub-roles: ```ansible-galaxy install -r requirements.yml```
-
 
 ## Usage
 
