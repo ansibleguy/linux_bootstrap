@@ -8,5 +8,5 @@ roles:
   - src: 'ansibleguy.linux_networking'
 
 collections:
-  - name: 'community.general'
-  - name: 'ansible.posix'
+  - 'community.general'
+  - 'ansible.posix'
