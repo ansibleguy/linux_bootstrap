@@ -15,6 +15,9 @@
   ansible.builtin.include_role:
     name: ansibleguy.linux_ufw
   tags: [ufw, firewall]
+  args:
+    apply:
+      tags: [ufw, firewall]
   when:
     - BOOTSTRAP.configure_firewall
     - part is undefined or part|int == 2

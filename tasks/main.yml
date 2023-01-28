@@ -18,6 +18,9 @@
     ((system_auth.users is defined and system_auth.users | length > 0) or
     (system_auth.groups is defined and system_auth.groups | length > 0)))
   tags: [users, groups, auth]
+  args:
+    apply:
+      tags: [users, groups, auth]
 
 - name: Bootstrap | Processing debian post-user config
   ansible.builtin.import_tasks: debian/post_user.yml
@@ -34,6 +37,9 @@
     BOOTSTRAP.configure_network and
     network is defined
   tags: [interfaces, routing]
+  args:
+    apply:
+      tags: [interfaces, routing]
 
 # todo: if some major config changed => ask user if we should reboot..
 # todo: ask for reboot => cleaner
