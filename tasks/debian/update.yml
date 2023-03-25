@@ -1,5 +1,7 @@
 ---
 
+# todo: move auto-update to own repository and add pip-autoupgrade (multi-venv) option
+
 - name: Bootstrap | Debian | AutoUpdate | Install update tool
   ansible.builtin.apt:
     name: "{{ BOOTY_HC.update_packages }}"
@@ -44,6 +46,7 @@
 
 - name: Bootstrap | Debian | AutoUpdate | Reconfiguring unattended-upgrades
   ansible.builtin.command: 'dpkg-reconfigure -f noninteractive unattended-upgrades'
+  changed_when: false
   when: update_config.changed
 
 - name: Bootstrap | Debian | AutoUpdate | Starting / Enabling update services
