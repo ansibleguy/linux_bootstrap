@@ -74,4 +74,3 @@ defaults_bo:
       - ' '
 
 bootstrap: {}
-BOOTSTRAP: "{{ defaults_bo | combine(booty | default(bootstrap), recursive=true) }}"

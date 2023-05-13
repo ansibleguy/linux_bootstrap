@@ -1,0 +1,3 @@
+---
+
+BOOTSTRAP: "{{ defaults_bo | combine(booty | default(bootstrap), recursive=true) }}"
