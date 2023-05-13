@@ -4,19 +4,19 @@
 # todo: /etc/apt/source.list => https
 
 # NOTE: if this task is stuck while executing => your target host might not have internet access (firewall/name resolution)
-- name: Bootstrap | Debian | Install base packages
+- name: Bootstrap | Install base packages
   ansible.builtin.apt:
     name: "{{ BOOTY_HC.base_packages.debian[ansible_distribution_major_version] | default(BOOTY_HC.base_packages.debian.other) }}"
     state: present
     update_cache: yes
 
-- name: Bootstrap | Debian | Install tools
+- name: Bootstrap | Install tools
   ansible.builtin.apt:
     name: "{{ BOOTSTRAP.tools.debian[ansible_distribution_major_version] | default(BOOTSTRAP.tools.debian.other) }}"
     state: present
   when: BOOTSTRAP.install_tools
 
-- name: Bootstrap | Debian | Install VMWare guest-tools
+- name: Bootstrap | Install VMWare guest-tools
   ansible.builtin.apt:
     name: "{{ BOOTY_HC.vm_packages.vmware.debian[ansible_distribution_major_version] | default(BOOTY_HC.vm_packages.vmware.debian.other) }}"
     state: present
@@ -25,7 +25,7 @@
     - ansible_virtualization_role|lower == 'guest'
     - ansible_virtualization_type|lower == 'vmware'
 
-- name: Bootstrap | Debian | Install KVM guest-tools
+- name: Bootstrap | Install KVM guest-tools
   ansible.builtin.apt:
     name: "{{ BOOTY_HC.vm_packages.kvm.debian[ansible_distribution_major_version] | default(BOOTY_HC.vm_packages.kvm.debian.other) }}"
     state: present
@@ -34,7 +34,7 @@
     - ansible_virtualization_role|lower == 'guest'
     - ansible_virtualization_type|lower == 'kvm'
 
-- name: Bootstrap | Debian | Set localhost name resolution
+- name: Bootstrap | Set localhost name resolution
   ansible.builtin.lineinfile:
     dest: '/etc/hosts'
     regexp: '^127.0.1.1'
@@ -45,12 +45,12 @@
     state: present
     backrefs: yes
 
-- name: Bootstrap | Debian | AutoUpdate config
+- name: Bootstrap | AutoUpdate config
   ansible.builtin.import_tasks: update.yml
   when: BOOTSTRAP.auto_update.enable
   tags: update
 
-- name: Bootstrap | Debian | AutoUpdate | Disabling auto-update services
+- name: Bootstrap | AutoUpdate | Disabling auto-update services
   ansible.builtin.systemd:
     daemon_reload: yes
     name: "{{ item }}"
