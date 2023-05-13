@@ -1,6 +1,7 @@
 ---
 
 # todo: hostname not resolved
+# todo: /etc/apt/source.list => https
 
 # NOTE: if this task is stuck while executing => your target host might not have internet access (firewall/name resolution)
 - name: Bootstrap | Debian | Install base packages

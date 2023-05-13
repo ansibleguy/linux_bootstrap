@@ -5,6 +5,7 @@ defaults_bo:
   configure_firewall: false
   configure_users: true
   install_tools: true
+  firewall: 'ufw'  # ufw/nftables
 
   # NOTE: the bootstrapping process might fail when applying the new network configuration
   #   you can just re-run the bootstrap playbook manually if you'd like to!

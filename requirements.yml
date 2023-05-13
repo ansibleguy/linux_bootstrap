@@ -4,6 +4,7 @@
 
 roles:
   - src: 'ansibleguy.linux_ufw'
+  - src: 'ansibleguy.infra_nftables'
   - src: 'ansibleguy.linux_users'
   - src: 'ansibleguy.linux_networking'
 

@@ -11,7 +11,7 @@
 #- name: Bootstrap | SSH | Re-connecting via ssh
 #  ansible.builtin.meta: reset_connection
 
-- name: Bootstrap | Debian | Configuring firewall
+- name: Bootstrap | Debian | Configuring firewall (UFW)
   ansible.builtin.include_role:
     name: ansibleguy.linux_ufw
   tags: [ufw, firewall]
@@ -20,4 +20,17 @@
       tags: [ufw, firewall]
   when:
     - BOOTSTRAP.configure_firewall
+    - BOOTSTRAP.firewall == 'ufw'
+    - part is undefined or part|int == 2
+
+- name: Bootstrap | Debian | Configuring firewall (NFTables)
+  ansible.builtin.include_role:
+    name: ansibleguy.infra_nftables
+  tags: [nftables, nft, firewall]
+  args:
+    apply:
+      tags: [nftables, nft, firewall]
+  when:
+    - BOOTSTRAP.configure_firewall
+    - BOOTSTRAP.firewall == 'nftables'
     - part is undefined or part|int == 2
