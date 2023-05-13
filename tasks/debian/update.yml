@@ -2,12 +2,12 @@
 
 # todo: move auto-update to own repository and add pip-autoupgrade (multi-venv) option
 
-- name: Bootstrap | Debian | AutoUpdate | Install update tool
+- name: Bootstrap | AutoUpdate | Install update tool
   ansible.builtin.apt:
     name: "{{ BOOTY_HC.update_packages }}"
     state: present
 
-- name: Bootstrap | Debian | AutoUpdate | Setting update time (1/2)
+- name: Bootstrap | AutoUpdate | Setting update time (1/2)
   ansible.builtin.file:
     path: "{{ item }}"
     owner: 'root'
@@ -18,7 +18,7 @@
     - '/etc/systemd/system/apt-daily.timer.d'
     - '/etc/systemd/system/apt-daily-upgrade.timer.d'
 
-- name: Bootstrap | Debian | AutoUpdate | Setting update time (2/2)
+- name: Bootstrap | AutoUpdate | Setting update time (2/2)
   ansible.builtin.template:
     src: "templates/etc/systemd/system/{{ item }}.timer.d/override.conf.j2"
     dest: "/etc/systemd/system/{{ item }}.timer.d/override.conf"
@@ -29,7 +29,7 @@
     - 'apt-daily'
     - 'apt-daily-upgrade'
 
-- name: Bootstrap | Debian | AutoUpdate | Configuring update settings
+- name: Bootstrap | AutoUpdate | Configuring update settings
   ansible.builtin.template:
     src: 'templates/etc/apt/apt.conf.d/50unattended-upgrades.j2'
     dest: '/etc/apt/apt.conf.d/50unattended-upgrades'
@@ -38,18 +38,18 @@
     mode: 0640
   register: update_config
 
-- name: Bootstrap | Debian | AutoUpdate | Enabling unattended-upgrades
+- name: Bootstrap | AutoUpdate | Enabling unattended-upgrades
   ansible.builtin.command:
     cmd: 'debconf-set-selections'
     stdin: 'unattended-upgrades unattended-upgrades/enable_auto_updates boolean true'
   changed_when: false
 
-- name: Bootstrap | Debian | AutoUpdate | Reconfiguring unattended-upgrades
+- name: Bootstrap | AutoUpdate | Reconfiguring unattended-upgrades
   ansible.builtin.command: 'dpkg-reconfigure -f noninteractive unattended-upgrades'
   changed_when: false
   when: update_config.changed
 
-- name: Bootstrap | Debian | AutoUpdate | Starting / Enabling update services
+- name: Bootstrap | AutoUpdate | Starting / Enabling update services
   ansible.builtin.systemd:
     daemon_reload: yes
     name: "{{ item }}"
