@@ -23,6 +23,7 @@ ansible-galaxy install ansibleguy.linux_bootstrap --roles-path ./roles
 
 # install dependencies
 ansible-galaxy install -r requirements.yml
+python3 -m pip install -r requirements.txt
 ```
 
 ## Functionality

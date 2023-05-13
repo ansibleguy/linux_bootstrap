@@ -1,0 +1,5 @@
+# pip requirements
+## ansibleguy.linux_users
+passlib
+## ansibleguy.linux_networking
+netaddr
