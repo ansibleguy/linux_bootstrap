@@ -47,7 +47,7 @@
 
 - name: Bootstrap | AutoUpdate config
   ansible.builtin.import_tasks: update.yml
-  when: BOOTSTRAP.auto_update.enable
+  when: BOOTSTRAP.auto_update.enable | bool
   tags: update
 
 - name: Bootstrap | AutoUpdate | Disabling auto-update services
@@ -60,4 +60,4 @@
   loop:
     - 'apt-daily-upgrade.timer'
     - 'apt-daily.timer'
-  when: not BOOTSTRAP.auto_update.enable
+  when: not BOOTSTRAP.auto_update.enable | bool
