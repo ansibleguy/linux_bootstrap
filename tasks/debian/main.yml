@@ -52,12 +52,16 @@
 
 - name: Bootstrap | AutoUpdate | Disabling auto-update services
   ansible.builtin.systemd:
-    daemon_reload: yes
+    daemon_reload: true
     name: "{{ item }}"
     state: stopped
-    enabled: no
-  changed_when: false
+    enabled: false
   loop:
     - 'apt-daily-upgrade.timer'
     - 'apt-daily.timer'
   when: not BOOTSTRAP.auto_update.enable | bool
+  register: au_removal
+  failed_when:
+    - au_removal.failed
+    - "'does not exist' not in au_removal.msg"
+    - "'Could not find' not in au_removal.msg"
