@@ -14,7 +14,7 @@
     (part is undefined or
     part|int == 1)
     and
-    (BOOTSTRAP.configure_users and
+    (BOOTSTRAP.configure_users | bool and
     ((system_auth.users is defined and system_auth.users | length > 0) or
     (system_auth.groups is defined and system_auth.groups | length > 0)))
   tags: [users, groups, auth]
@@ -34,7 +34,7 @@
     (part is undefined or
     part|int == 2)
     and
-    BOOTSTRAP.configure_network and
+    BOOTSTRAP.configure_network | bool and
     network is defined
   tags: [interfaces, routing]
   args:

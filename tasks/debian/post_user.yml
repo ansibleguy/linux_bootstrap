@@ -3,7 +3,7 @@
 - name: Bootstrap | Configure ssh
   ansible.builtin.import_tasks: ssh.yml
   when:
-    - BOOTSTRAP.ssh.configure
+    - BOOTSTRAP.ssh.configure | bool
     - part is undefined or part|int == 1
   tags: [ssh]
 
@@ -19,7 +19,7 @@
     apply:
       tags: [ufw, firewall]
   when:
-    - BOOTSTRAP.configure_firewall
+    - BOOTSTRAP.configure_firewall | bool
     - BOOTSTRAP.firewall == 'ufw'
     - part is undefined or part|int == 2
 
@@ -31,6 +31,6 @@
     apply:
       tags: [nftables, nft, firewall]
   when:
-    - BOOTSTRAP.configure_firewall
+    - BOOTSTRAP.configure_firewall | bool
     - BOOTSTRAP.firewall == 'nftables'
     - part is undefined or part|int == 2

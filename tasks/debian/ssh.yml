@@ -10,7 +10,7 @@
   register: ssh_lockout_check
   when:
     - not BOOTSTRAP.ssh.allow_root
-    - not BOOTSTRAP.configure_users or system_auth.users is not defined or system_auth.users|length == 0
+    - not BOOTSTRAP.configure_users | bool or system_auth.users is not defined or system_auth.users|length == 0
 
 - name: Bootstrap | SSH | Deploying ssh config
   ansible.builtin.template:

@@ -2,23 +2,27 @@
 # ansibleguy.linux_bootstrap
 
 # custom config
-Port {{ BOOTSTRAP.ssh.port }}
-PermitRootLogin {% if BOOTSTRAP.ssh.allow_root %}yes{% else %}no{% endif %}
+{% for listen in BOOTSTRAP.ssh.listen %}
+ListenAddress {{ listen }}
+{% endfor %}
 
-{% if BOOTSTRAP.ssh.auth_multi %}
+Port {{ BOOTSTRAP.ssh.port }}
+PermitRootLogin {% if BOOTSTRAP.ssh.allow_root | bool %}yes{% else %}no{% endif %}
+
+{% if BOOTSTRAP.ssh.auth_multi | bool %}
 AuthenticationMethods "publickey,password"
 PasswordAuthentication yes
 PubkeyAuthentication yes
 
 {% else %}
-PubkeyAuthentication {% if BOOTSTRAP.ssh.auth_pwd %}yes{% else %}no{% endif %}
+PubkeyAuthentication {% if BOOTSTRAP.ssh.auth_pwd | bool %}yes{% else %}no{% endif %}
 
-PasswordAuthentication {% if BOOTSTRAP.ssh.auth_pubkey %}yes{% else %}no{% endif %}
+PasswordAuthentication {% if BOOTSTRAP.ssh.auth_pubkey | bool %}yes{% else %}no{% endif %}
 {% endif %}
 
 
 # login messages
-{% if BOOTSTRAP.ssh.msg %}
+{% if BOOTSTRAP.ssh.msg | bool %}
 Banner /etc/ssh/banner.txt
 {% endif %}
 
@@ -35,3 +39,4 @@ ClientAliveInterval 1800
 AcceptEnv LANG LC_*
 Subsystem       sftp    /usr/lib/openssh/sftp-server
 PrintMotd no
+KbdInteractiveAuthentication no
