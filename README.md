@@ -14,6 +14,10 @@ It runs some basic setup tasks to bring a cleanly installed linux server up to t
 ## Install
 
 ```bash
+# latest
+ansible-galaxy role install git+https://github.com/ansibleguy/linux_bootstrap
+
+# from galaxy
 ansible-galaxy install ansibleguy.linux_bootstrap
 
 # or to custom role-path
