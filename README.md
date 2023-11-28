@@ -8,6 +8,7 @@ It runs some basic setup tasks to bring a cleanly installed linux server up to t
 [![PyLint Test Status](https://badges.ansibleguy.net/linux_bootstrap.pylint.svg)](https://github.com/ansibleguy/_meta_cicd/blob/latest/templates/usr/local/bin/cicd/pylint.sh.j2)
 [![Ansible-Lint Test Status](https://badges.ansibleguy.net/linux_bootstrap.ansiblelint.svg)](https://github.com/ansibleguy/_meta_cicd/blob/latest/templates/usr/local/bin/cicd/ansiblelint.sh.j2)
 [![Ansible Galaxy](https://badges.ansibleguy.net/galaxy.badge.svg)](https://galaxy.ansible.com/ui/standalone/roles/ansibleguy/linux_bootstrap)
+
 **Tested:**
 * Debian 11
 
