@@ -46,7 +46,7 @@
     backrefs: yes
 
 - name: Bootstrap | AutoUpdate config
-  ansible.builtin.import_tasks: update.yml
+  ansible.builtin.import_tasks: debian/update.yml
   when: BOOTSTRAP.auto_update.enable | bool
   tags: update
 
