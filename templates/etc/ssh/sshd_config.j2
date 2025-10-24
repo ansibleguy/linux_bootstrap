@@ -22,6 +22,9 @@ PubkeyAuthentication {% if BOOTSTRAP.ssh.auth_pubkey | bool %}yes{% else %}no{% 
 PasswordAuthentication {% if BOOTSTRAP.ssh.auth_pwd | bool %}yes{% else %}no{% endif %}
 {% endif %}
 
+{% if BOOTSTRAP.ssh.allow_agent_forwarding | bool %}
+AllowAgentForwarding yes
+{% endif %}
 
 # login messages
 {% if BOOTSTRAP.ssh.msg | bool %}

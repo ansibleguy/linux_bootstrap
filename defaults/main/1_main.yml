@@ -61,6 +61,8 @@ defaults_bo:
     auth_multi: false  # require both publickey and password
     auth_pwd: true  # allowing password-authentication
     auth_pubkey: true  # allowing publickey-authentication
+    allow_agent_forwarding: false  # use this host as ssh jump-host
+    # NOTE: connect via 'ssh -A' to forward your ssh-keys; use 'ssh-add -k' on your client to add keys to forward
     msg: false
     banner_msg:
       - ' '

@@ -1,18 +1,18 @@
 # {{ ansible_managed }}
 
 {% if BOOTSTRAP.repo.provider == 'hetzner.com' %}
-deb https://mirror.hetzner.com/debian/packages bookworm main contrib non-free-firmware
-deb https://mirror.hetzner.com/debian/packages bookworm-updates main contrib non-free-firmware
-deb https://deb.debian.org/debian bookworm main contrib non-free-firmware
-deb https://deb.debian.org/debian bookworm-updates main contrib non-free-firmware
-deb https://security.debian.org/debian-security bookworm-security main contrib non-free-firmware
+deb https://mirror.hetzner.com/debian/packages {{ ansible_distribution_release }} main contrib non-free-firmware
+deb https://mirror.hetzner.com/debian/packages {{ ansible_distribution_release }}-updates main contrib non-free-firmware
+deb https://deb.debian.org/debian {{ ansible_distribution_release }} main contrib non-free-firmware
+deb https://deb.debian.org/debian {{ ansible_distribution_release }}-updates main contrib non-free-firmware
+deb https://security.debian.org/debian-security {{ ansible_distribution_release }}-security main contrib non-free-firmware
 
 {% else %}
-deb https://deb.debian.org/debian/ bookworm main non-free-firmware
-deb-src https://deb.debian.org/debian/ bookworm main non-free-firmware
-deb https://security.debian.org/debian-security bookworm-security main non-free-firmware
-deb-src https://security.debian.org/debian-security bookworm-security main non-free-firmware
-deb https://deb.debian.org/debian/ bookworm-updates main non-free-firmware
-deb-src https://deb.debian.org/debian/ bookworm-updates main non-free-firmware
+deb https://deb.debian.org/debian/ {{ ansible_distribution_release }} main non-free-firmware
+deb-src https://deb.debian.org/debian/ {{ ansible_distribution_release }} main non-free-firmware
+deb https://security.debian.org/debian-security {{ ansible_distribution_release }}-security main non-free-firmware
+deb-src https://security.debian.org/debian-security {{ ansible_distribution_release }}-security main non-free-firmware
+deb https://deb.debian.org/debian/ {{ ansible_distribution_release }}-updates main non-free-firmware
+deb-src https://deb.debian.org/debian/ {{ ansible_distribution_release }}-updates main non-free-firmware
 
 {% endif %}
