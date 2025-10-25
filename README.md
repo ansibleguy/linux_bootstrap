@@ -3,16 +3,16 @@ Ansible Role to bootstrap linux servers.
 
 It runs some basic setup tasks to bring a cleanly installed linux server up to the needed standards for further usage.
 
-[![Lint](https://github.com/ansibleguy/linux_bootstrap/actions/workflows/lint.yml/badge.svg)](https://github.com/ansibleguy/linux_bootstrap/actions/workflows/lint.yml)
-[![Ansible Galaxy](https://badges.ansibleguy.net/galaxy.badge.svg)](https://galaxy.ansible.com/ui/standalone/roles/ansibleguy/linux_bootstrap)
+[![Lint](https://github.com/O-X-L/ansible-role-linux-bootstrap/actions/workflows/lint.yml/badge.svg)](https://github.com/O-X-L/ansible-role-linux-bootstrap/actions/workflows/lint.yml)
+[![Ansible Galaxy](https://badges.oss.oxl.app/galaxy.badge.svg)](https://galaxy.ansible.com/ui/standalone/roles/oxlorg/linux_bootstrap)
 
 **Molecule Integration-Tests**:
 
-* Status: [![Molecule Test Status](https://badges.ansibleguy.net/linux_bootstrap.molecule.svg)](https://github.com/ansibleguy/_meta_cicd/blob/latest/templates/usr/local/bin/cicd/molecule.sh.j2) |
-[![Functional-Tests](https://github.com/ansibleguy/linux_bootstrap/actions/workflows/integration_test_result.yml/badge.svg)](https://github.com/ansibleguy/linux_bootstrap/actions/workflows/integration_test_result.yml)
-* Logs: [API](https://ci.ansibleguy.net/api/job/ansible-test-molecule-linux_bootstrap/logs?token=2b7bba30-9a37-4b57-be8a-99e23016ce70&lines=1000) | [Short](https://badges.ansibleguy.net/log/molecule_linux_bootstrap_test_short.log) | [Full](https://badges.ansibleguy.net/log/molecule_linux_bootstrap_test.log)
+* Status: [![Molecule Test Status](https://badges.oss.oxl.app/linux_bootstrap.molecule.svg)](https://github.com/O-X-L/ansible-role-oxl-cicd/blob/latest/templates/usr/local/bin/cicd/molecule.sh.j2) |
+[![Functional-Tests](https://github.com/O-X-L/ansible-role-linux-bootstrap/actions/workflows/integration_test_result.yml/badge.svg)](https://github.com/O-X-L/ansible-role-linux-bootstrap/actions/workflows/integration_test_result.yml)
+* Logs: [API](https://ci.oss.oxl.app/api/job/ansible-test-molecule-linux_bootstrap/logs?token=2b7bba30-9a37-4b57-be8a-99e23016ce70&lines=1000) | [Short](https://badges.oss.oxl.app/log/molecule_linux_bootstrap_test_short.log) | [Full](https://badges.oss.oxl.app/log/molecule_linux_bootstrap_test.log)
 
-Internal CI: [Tester Role](https://github.com/ansibleguy/_meta_cicd) | [Jobs API](https://github.com/O-X-L/github-self-hosted-jobs-systemd)
+Internal CI: [Tester Role](https://github.com/O-X-L/ansible-role-oxl-cicd) | [Jobs API](https://github.com/O-X-L/github-self-hosted-jobs-systemd)
 
 **Tested:**
 * Debian 11
@@ -24,13 +24,13 @@ Internal CI: [Tester Role](https://github.com/ansibleguy/_meta_cicd) | [Jobs API
 
 ```bash
 # latest
-ansible-galaxy role install git+https://github.com/ansibleguy/linux_bootstrap
+ansible-galaxy role install git+https://github.com/O-X-L/ansible-role-linux-bootstrap
 
 # from galaxy
-ansible-galaxy install ansibleguy.linux_bootstrap
+ansible-galaxy install oxlorg.linux_bootstrap
 
 # or to custom role-path
-ansible-galaxy install ansibleguy.linux_bootstrap --roles-path ./roles
+ansible-galaxy install oxlorg.linux_bootstrap --roles-path ./roles
 
 # install dependencies
 ansible-galaxy install -r requirements.yml
@@ -53,7 +53,7 @@ python3 -m pip install -r requirements.txt
 
 * You want a simple **Ansible GUI**?
 
-  Check-out this [Ansible WebUI](https://github.com/ansibleguy/webui)
+  Check-out this [Ansible WebUI](https://github.com/O-X-L/ansible-webui)
 
 ----
 
@@ -70,7 +70,7 @@ bootstrap:
   configure_users: true
   install_tools: true
   
-  host_fqdn: 'host.bootstrap.template.ansibleguy.net'  # optional
+  host_fqdn: 'host.bootstrap.template.oxl.at'  # optional
   
   ssh:
     configure: true
@@ -88,10 +88,10 @@ bootstrap:
     logging_verbose: true
 
 system_auth:
-  users:  # more info: https://github.com/ansibleguy/linux_users
+  users:  # more info: https://github.com/O-X-L/ansible-role-linux-users
     guy:
       comment: 'AnsibleGuy'
-      ssh_pub: 'ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBKkIlii1iJM240yPSPS5WhrdQwGFa7BTJZ59ia40wgVWjjg1JlTtr9K2W66fNb2zNO7tLkaNzPddMEsov2bJAno= guy@ansibleguy.net'
+      ssh_pub: 'ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBKkIlii1iJM240yPSPS5WhrdQwGFa7BTJZ59ia40wgVWjjg1JlTtr9K2W66fNb2zNO7tLkaNzPddMEsov2bJAno= contact@oxl.at'
   
   groups:
     ag_users:
@@ -100,26 +100,16 @@ system_auth:
       members: ['guy']
       member_of: ['ag_users']
 
-network:  # more info: https://github.com/ansibleguy/linux_networking
+network:  # more info: https://github.com/O-X-L/ansible-role-linux-networking
   interfaces:
     ens192:
       address: '192.168.142.90/24'
       gateway: '192.168.142.1'
-
-ufw_rules:  # more info: https://github.com/ansibleguy/linux_ufw
-  ssh:
-    port: 10022
-    proto: 'tcp'
-    log: true
-    rule: 'limit'
-  webServer:
-    port: 80,443
-    proto: 'tcp'
 ```
 
 ### Execution
 
-I've not yet found a solution for reloading the 'meta-variables' (_like the targets ip-address, ssh-port and ssh-credentials_) so the bootstrapping can be done in one run. See also: [Issue](https://github.com/ansibleguy/linux_bootstrap/issues/1)
+I've not yet found a solution for reloading the 'meta-variables' (_like the targets ip-address, ssh-port and ssh-credentials_) so the bootstrapping can be done in one run. See also: [Issue](https://github.com/O-X-L/ansible-role-linux-bootstrap/issues/1)
 
 Therefor the bootstrapping got 'part'-flags as shown in the example below. 
 
@@ -177,20 +167,19 @@ There are also some useful **tags** available:
 
 * **Default opt-in**:
   * OpenSSH server
-  * Users/Groups => using [THIS](https://github.com/ansibleguy/linux_users) role
+  * Users/Groups => using [THIS](https://github.com/O-X-L/ansible-role-linux-users) role
 
 
 * **Default opt-out**:
   * Auto-updates
-  * UFW => using [THIS](https://github.com/ansibleguy/linux_ufw) role
-  * Network(-interfaces) => using [THIS](https://github.com/ansibleguy/linux_networking) role
+  * Network(-interfaces) => using [THIS](https://github.com/O-X-L/ansible-role-linux-networking) role
 
 
 ## Info
 
 * **Note:** Most of the role's functionality can be opted in or out.
 
-  For all available options - see the default-config located in [the main defaults-file](https://github.com/ansibleguy/linux_bootstrap/blob/latest/defaults/main/1_main.yml)!
+  For all available options - see the default-config located in [the main defaults-file](https://github.com/O-X-L/ansible-role-linux-bootstrap/blob/latest/defaults/main/1_main.yml)!
 
 
 

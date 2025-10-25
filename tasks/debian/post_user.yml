@@ -12,12 +12,9 @@
 #  ansible.builtin.meta: reset_connection
 
 - name: Bootstrap | Configuring firewall (UFW)
-  ansible.builtin.include_role:
-    name: ansibleguy.linux_ufw
+  ansible.builtin.pause:
+    prompt: 'This role has stopped supporting UFW'
   tags: [ufw, firewall]
-  args:
-    apply:
-      tags: [ufw, firewall]
   when:
     - BOOTSTRAP.configure_firewall | bool
     - BOOTSTRAP.firewall == 'ufw'
@@ -25,7 +22,7 @@
 
 - name: Bootstrap | Configuring firewall (NFTables)
   ansible.builtin.include_role:
-    name: ansibleguy.infra_nftables
+    name: oxlorg.nftables
   tags: [nftables, nft, firewall]
   args:
     apply:

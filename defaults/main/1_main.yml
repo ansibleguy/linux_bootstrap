@@ -16,7 +16,7 @@ defaults_bo:
   # post_ssh_pass: !vault ...  # if the password for the other user differs, you can provide it here
 
   # NOTE: fqdn can also be defined outside the 'bootstrap' dictionary
-  # host_fqdn: 'host.bootstrap.template.ansibleguy.net'
+  # host_fqdn: 'host.bootstrap.template.oxl.at'
 
   tools:
     debian:

@@ -3,10 +3,14 @@
 # install: ansible-galaxy install -r requirements.yml
 
 roles:
-  - src: 'ansibleguy.linux_ufw'
-  - src: 'ansibleguy.infra_nftables'
-  - src: 'ansibleguy.linux_users'
-  - src: 'ansibleguy.linux_networking'
+  - name: 'oxlorg.nftables'
+    src: 'git+https://github.com/O-X-L/ansible-role-nftables'
+
+  - name: 'oxlorg.linux_users'
+    src: 'git+https://github.com/O-X-L/ansible-role-linux-users'
+
+  - name: 'oxlorg.linux_networking'
+    src: 'git+https://github.com/O-X-L/ansible-role-linux-networking'
 
 collections:
   - 'community.general'

@@ -1,5 +1,5 @@
 # pip requirements
-## ansibleguy.linux_users
+## oxlorg.linux_users
 passlib
-## ansibleguy.linux_networking
+## oxlorg.linux_networking
 netaddr
